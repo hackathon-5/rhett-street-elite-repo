@@ -7,7 +7,7 @@ var Comment = require('../models/comment.js');
 /* create comment */
 router.post('/', function(req, res, next) {
   var comment = new Comment();
-  comment.userName = req.body.name;
+  comment.userName = req.body.userName;
   comment.text = req.body.text;
   comment.rating = req.body.rating;
   comment.carrierId = req.body.carrierId;
