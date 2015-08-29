@@ -4,14 +4,20 @@
     <form class="form">
         <div class="form-group">
             <label for="hackEmail">Email</label>
-            <input type="text" class="form-control" name="hackEmail" id="hackEmail" placeholder="Email" />
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                <input type="text" class="form-control" name="hackEmail" id="hackEmail" placeholder="Email" />
+            </div>
         </div>
         <div class="form-group">
             <label for="hackPassword">Password</label>
-            <input type="password" class="form-control" name="hackPassword" id="hackPassword" placeholder="Password" />
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                <input type="password" class="form-control" name="hackPassword" id="hackPassword" placeholder="Password" />
+            </div>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary" id="login-button">Login</button>
+            <button class="btn btn-primary" id="login-button"><i class="fa fa-sign-in"></i> Login</button>
         </div>
     </form>
 </div>

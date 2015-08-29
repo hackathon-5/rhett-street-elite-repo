@@ -1,7 +1,7 @@
 <% include partials/header.ejs %>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
     <div class="pull-right">
-        <a href="/clients/new" class="btn btn-success">Add New Carrier</a>
+        <a href="/clients/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Carrier</a>
     </div>
     <table class="table table-striped" id="users">
         <thead>
@@ -33,7 +33,7 @@
             success: function(data) {
                 for(var i = 0; i < data.length; ++i) {
                     $('#users > tbody:last-child').append(
-                            '<tr><td><a href="/clients/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteClient(\'' + data[i]._id + '\');">Delete</a></td></tr>'
+                            '<tr><td><a href="/clients/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteClient(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                     );
                 }
             }

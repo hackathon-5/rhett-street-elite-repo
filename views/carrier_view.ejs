@@ -9,7 +9,7 @@
         <h6 id="city_state_postal"></h6>
         <h6 id="phone_number"></h6>
         <hr/>
-        <h6 id="rating"></h6>
+        <h6 id="avg_rating"></h6>
         <hr/>
         <h6>Comments</h6>
         <table class="table table-striped" id="comments">
@@ -37,7 +37,7 @@
             </div>
             <div class="form-group">
                 <div class="pull-right">
-                    <button class="btn btn-primary" id="add-comment">Add Comment</button>
+                    <button class="btn btn-primary" id="add-comment"><i class="fa fa-plus"></i> Add Comment</button>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -62,14 +62,14 @@
                             var totalComments = data.length;
                             for(var i = 0; i < data.length; ++i) {
                                 $('#comments > tbody:last-child').append(
-                                        '<tr><td>' + data[i].userName + '</td><td>' + data[i].rating + '</td></tr>' + ("<%= session.user.role %>" == "admin" ? '<tr><td>' + data[i].text + '</td><td align="right"><a class="btn btn-danger" href="javascript: deleteComment(\'' + data[i]._id + '\');">Delete</a></td></tr>' : '<tr><td colspan="2">' + data[i].text + '</td></tr>')
+                                        '<tr><td>' + data[i].userName + '</td><td>' + data[i].rating + '</td></tr>' + ("<%= session.user.role %>" == "admin" ? '<tr><td>' + data[i].text + '</td><td align="right"><a class="btn btn-danger" href="javascript: deleteComment(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>' : '<tr><td colspan="2">' + data[i].text + '</td></tr>')
                                 );
                                 totalRating += parseInt(data[i].rating);
                             }
                             if(totalComments != 0) {
-                                $("#rating").text("Average Rating: " + (totalRating / totalComments));
+                                $("#avg_rating").text("Average Rating: " + (totalRating / totalComments));
                             } else {
-                                $("#rating").text("Average Rating: N/A");
+                                $("#avg_rating").text("Average Rating: N/A");
                             }
                         }
                     });
@@ -80,7 +80,7 @@
         $("#add-comment").on('click', function(e) {
             e.preventDefault();
             var comment = {
-                "name": "<%= session.user.name %>",
+                "userName": "<%= session.user.name %>",
                 "text": $("#comment").val(),
                 "rating": $("#rating").val(),
                 "carrierId": carrier._id,

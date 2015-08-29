@@ -1,7 +1,7 @@
 <% include partials/header.ejs %>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
         <div class="pull-right">
-            <a href="/users/new" class="btn btn-success">Add New User</a>
+            <a href="/users/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New User</a>
         </div>
         <table class="table table-striped" id="users">
             <thead>
@@ -35,7 +35,7 @@
                 success: function(data) {
                     for(var i = 0; i < data.length; ++i) {
                         $('#users > tbody:last-child').append(
-                                '<tr><td><a href="/users/' + data[i]._id + '">' + data[i].email + '</a></td><td>' + data[i].name + '</td><td>' + data[i].role + '</td><td><a class="btn btn-danger" href="javascript: deleteUser(\'' + data[i]._id + '\');">Delete</a></td></tr>'
+                                '<tr><td><a href="/users/' + data[i]._id + '">' + data[i].email + '</a></td><td>' + data[i].name + '</td><td>' + data[i].role + '</td><td><a class="btn btn-danger" href="javascript: deleteUser(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                         );
                     }
                 }
