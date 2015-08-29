@@ -1,28 +1,45 @@
 <% include partials/header.ejs %>
 <div class="hidden-xs hidden-sm col-md-12 col-lg-12 well">
-    <% if(session.user.role == "client") { %>
-    <div class="pull-right">
-        <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
-    </div>
-    <div class="clearfix"></div>
-    <div style="margin-top: 10px;"></div>
-    <% } %>
-    <table class="table table-striped" id="shipments">
-        <thead>
-        <tr>
-            <th>Quotes</th>
-            <th>Lane</th>
-            <th>Pickup</th>
-            <th>Delivery</th>
-            <th>Status</th>
-            <th>Weight</th>
-            <th>My Quote</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#shipments_tab" aria-controls="shipments_tab" role="tab" data-toggle="tab">Shipments</a></li>
+            <li role="presentation"><a href="#heatmap_tab" aria-controls="heatmap_tab" role="tab" data-toggle="tab">Heatmap</a></li>
+        </ul>
 
-        </tbody>
-    </table>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="shipments_tab">
+                <% if(session.user.role == "client") { %>
+                <div class="pull-right">
+                    <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
+                </div>
+                <div class="clearfix"></div>
+                <div style="margin-top: 10px;"></div>
+                <% } %>
+                <table class="table table-striped" id="shipments">
+                    <thead>
+                    <tr>
+                        <th>Quotes</th>
+                        <th>Lane</th>
+                        <th>Pickup</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
+                        <th>Weight</th>
+                        <th>My Quote</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="heatmap_tab">
+                <div id="map"></div>
+            </div>
+        </div>
+
+    </div>
 </div>
 <div class="col-xs-12 col-sm-12 hidden-md hidden-lg well">
     <% if(session.user.role == "client") { %>
@@ -101,4 +118,82 @@
         window.location = '/quotes/' + quoteId;
     }
 </script>
+<script type="text/javascript">
+    var map, heatmap;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: {lat: 42.877742, lng: -97.380979},
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        });
+        getPoints(function(data) {
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: data,
+                map: map
+            });
+            heatmap.set('radius', 20);
+        })
+    }
+
+    function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+    }
+
+    function changeGradient() {
+        var gradient = [
+            'rgba(0, 255, 255, 0)',
+            'rgba(0, 255, 255, 1)',
+            'rgba(0, 191, 255, 1)',
+            'rgba(0, 127, 255, 1)',
+            'rgba(0, 63, 255, 1)',
+            'rgba(0, 0, 255, 1)',
+            'rgba(0, 0, 223, 1)',
+            'rgba(0, 0, 191, 1)',
+            'rgba(0, 0, 159, 1)',
+            'rgba(0, 0, 127, 1)',
+            'rgba(63, 0, 91, 1)',
+            'rgba(127, 0, 63, 1)',
+            'rgba(191, 0, 31, 1)',
+            'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    }
+
+    function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+    }
+
+    function convert(i, data, response, callback) {
+        if(i >= data.length) {
+            callback(response);
+        } else {
+            $.ajax({
+                url: 'http://maps.googleapis.com/maps/api/geocode/json?address=' + data[i].origin + ', US',
+                success: function(resp) {
+                    for(var j = 0; j < 25; ++j) {
+                        response.push(new google.maps.LatLng(resp.results[0].geometry.location.lat, resp.results[0].geometry.location.lng));
+                    }
+                    convert(i + 1, data, response, callback);
+                }
+            })
+        }
+    }
+
+    // Heatmap data: 500 Points
+    function getPoints(callback) {
+        $.ajax({
+            url: '/api/shipments/list',
+            success: function(data) {
+                convert(0, data, [], callback);
+            }
+        })
+    }
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        initMap();
+    });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&=AIzaSyCoo3fnLd-FJxoDjd2vnXsAkNpcn2nLcjg&libraries=visualization">
+</script>
+
 <% include partials/footer.ejs %>

@@ -1,3 +1,7 @@
 body {
   background-color: #bdc3c7;
 }
+
+#map {
+  height: 600px;
+}
