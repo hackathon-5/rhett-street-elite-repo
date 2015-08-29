@@ -2,7 +2,8 @@
 <% if(session && session.user) { %>
 <div class="hidden-xs hidden-sm">
     <!-- Larger Screens -->
-        <div class="col-lg-4 col-md-4 well">
+    <div class="row-fluid">
+        <div id="bleh-younger-brother" class="col-lg-4 col-md-4 well">
             <table id="carriers" class="table table-striped">
                 <thead>
                     <tr><th>Carrier Name</th><th>Rating</th></tr>
@@ -11,7 +12,7 @@
                 </tbody>
             </table>
         </div>
-        <div  id="bleh" class="col-lg-8 col-md-8" style="background-color: #34495e; display:none;">
+        <div  id="bleh" class="col-lg-8 col-md-8 well" style="background-color: #34495e; display:none;">
             <div id="carrierInfo" class="pull-left" style="color: #eeeeee;">
                 <h6>Carrier Information</h6>
                 <div id="carrierName"></div>
@@ -46,9 +47,10 @@
                         <button class="btn btn-primary" id="comment-button">Comment</button>
                         <button class="btn btn-cancel" id="cancel-button">Cancel</button>
                     </div>
+                    <div class="clearfix"></div>
                 </form>
             </div>
-            <div class="clearfix"></div>
+            <hr/>
             <% } %>
             <table id="comments" class="table table-striped well">
                 <thead>
@@ -65,6 +67,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
 </div>
 <div class="hidden-lg hidden-md">
     <div class="col-xs-12 col-sm-12 well">
@@ -97,6 +100,7 @@
                 $('#carriers').DataTable();
                 $('#mobile_carriers').DataTable();
                 $('#comments').DataTable();
+                fixScreen();
             }
         });
     });
@@ -137,12 +141,13 @@
                             averageRating = carrier.averageRating;
                         }
                         $('#average').text("Average Rating: " + averageRating);
+                        $('#carrierId').text(carrier._id);
+                        $('#bleh').removeClass('animated fadeOut');
+                        $('#bleh').addClass('animated fadeIn');
+                        $('#bleh').show();
+                        fixScreen();
                     }
                 });
-                $('#carrierId').text(data._id);
-                $('#bleh').removeClass('animated fadeOut');
-                $('#bleh').addClass('animated fadeIn');
-                $('#bleh').show();
             }
         });
     }
@@ -151,6 +156,7 @@
         $('#addCommentStuff').removeClass('animated fadeOut');
         $('#addCommentStuff').addClass('animated fadeIn');
         $('#addCommentStuff').show();
+        fixScreen();
     }
 
     $("#cancel-button").on('click', function(e) {
@@ -159,6 +165,7 @@
         div.removeClass('animated fadeIn');
         div.addClass('animated fadeOut');
         div.hide();
+        fixScreen(false);
     });
 
     $('#comment-button').on('click', function(e) {
@@ -189,6 +196,7 @@
                 addComment.addClass('animated fadeOut');
                 addComment.hide();
                 getCarrierComments(carrier._id);
+                fixScreen();
             }
         });
     });
@@ -200,8 +208,25 @@
             type: 'DELETE',
             success: function(data) {
                 getCarrierComments(carrier._id);
+                fixScreen();
             }
         });
+    }
+
+    function fixScreen(undo) {
+        if(undo == false) {
+            if ($('#bleh-younger-brother').height() > $('#bleh').height()) {
+                $('#bleh-younger-brother').height($('#bleh').height());
+            } else {
+                $('#bleh').height($('#bleh-younger-brother').height());
+            }
+        } else {
+            if ($('#bleh-younger-brother').height() < $('#bleh').height()) {
+                $('#bleh-younger-brother').height($('#bleh').height());
+            } else {
+                $('#bleh').height($('#bleh-younger-brother').height());
+            }
+        }
     }
 </script>
 <% } %>
