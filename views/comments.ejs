@@ -71,6 +71,9 @@
                             '<tr><td><a href="/carrier_comments/' + data[i]._id + '">' + data[i].name + '</a></td><td>' + data[i].averageRating + '</td></tr>'
                     );
                 }
+                $('#carriers').DataTable();
+                $('#mobile_carriers').DataTable();
+                $('#comments').DataTable();
             }
         });
     });

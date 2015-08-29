@@ -38,6 +38,7 @@
                                 '<tr><td><a href="/users/' + data[i]._id + '">' + data[i].email + '</a></td><td>' + data[i].name + '</td><td>' + data[i].role + '</td><td><a class="btn btn-danger" href="javascript: deleteUser(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                         );
                     }
+                    $('#users').DataTable();
                 }
             });
         });
