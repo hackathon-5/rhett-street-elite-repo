@@ -1,0 +1,42 @@
+<% include partials/header.ejs %>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
+        <table class="table table-striped" id="users">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        function deleteUser(userId) {
+            $.ajax({
+                url: '/api/users/' + userId,
+                type: 'DELETE',
+                contentType: 'application/json',
+                success: function(data) {
+                    window.location = '/users';
+                }
+            });
+        }
+
+        $(function() {
+            $.ajax({
+                url: '/api/users/list',
+                success: function(data) {
+                    for(var i = 0; i < data.length; ++i) {
+                        $('#users > tbody:last-child').append(
+                                '<tr><td><a href="/users/' + data[i]._id + '">' + data[i].email + '</a></td><td>' + data[i].name + '</td><td>' + data[i].role + '</td><td><a class="btn btn-danger" href="javascript: deleteUser(\'' + data[i]._id + '\');">Delete</a></td></tr>'
+                        );
+                    }
+                }
+            });
+        });
+    </script>
+<% include partials/footer.ejs %>
