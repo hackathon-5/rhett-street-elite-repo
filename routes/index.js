@@ -6,6 +6,14 @@ router.get('/', function(req, res, next) {
   res.render('comments', {session: req.session});
 });
 
+router.get('/carrier_comments/:id', function(req, res, next) {
+  if(req.session.user) {
+    res.render('carrier_view', {session: req.session, id: req.params.id});
+  } else {
+    res.redirect('/');
+  }
+});
+
 router.get('/users', function(req, res, next) {
   if(req.session.user && req.session.user.role == 'admin') {
     res.render('user_index', {session: req.session});

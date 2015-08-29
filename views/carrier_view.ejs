@@ -1,0 +1,112 @@
+<% include partials/header.ejs %>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
+        <div class="pull-left">
+            <a href="/" class="btn btn-primary">&lt;&nbsp;Back</a>
+        </div>
+        <div class="clearfix"></div>
+        <h2 id="name"></h2>
+        <h6 id="address"></h6>
+        <h6 id="city_state_postal"></h6>
+        <h6 id="phone_number"></h6>
+        <hr/>
+        <h6 id="rating"></h6>
+        <hr/>
+        <h6>Comments</h6>
+        <table class="table table-striped" id="comments">
+            <tbody>
+
+            </tbody>
+        </table>
+        <% if(session.user.role != "carrier") { %>
+        <hr/>
+        <h6>Add Comment</h6>
+        <form class="form">
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <select class="form-control" name="rating" id="rating">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" id="comment" name="comment"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="pull-right">
+                    <button class="btn btn-primary" id="add-comment">Add Comment</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+        <% } %>
+    </div>
+    <script type="text/javascript">
+        var carrier = null;
+        $(function() {
+            $.ajax({
+                url: '/api/carriers/' + '<%= id %>',
+                success: function (data) {
+                    carrier = data;
+                    $('#name').text(data.name);
+                    $('#address').text(data.address);
+                    $('#city_state_postal').text(data.city + ', ' + data.state + ' ' + data.zip);
+                    $('#phone_number').text(data.phoneNum);
+                    $.ajax({
+                        url: '/api/comments/list/' + data._id,
+                        success: function(data) {
+                            var totalRating = 0;
+                            var totalComments = data.length;
+                            for(var i = 0; i < data.length; ++i) {
+                                $('#comments > tbody:last-child').append(
+                                        '<tr><td>' + data[i].userName + '</td><td>' + data[i].rating + '</td></tr>' + ("<%= session.user.role %>" == "admin" ? '<tr><td>' + data[i].text + '</td><td align="right"><a class="btn btn-danger" href="javascript: deleteComment(\'' + data[i]._id + '\');">Delete</a></td></tr>' : '<tr><td colspan="2">' + data[i].text + '</td></tr>')
+                                );
+                                totalRating += parseInt(data[i].rating);
+                            }
+                            if(totalComments != 0) {
+                                $("#rating").text("Average Rating: " + (totalRating / totalComments));
+                            } else {
+                                $("#rating").text("Average Rating: N/A");
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#add-comment").on('click', function(e) {
+            e.preventDefault();
+            var comment = {
+                "name": "<%= session.user.name %>",
+                "text": $("#comment").val(),
+                "rating": $("#rating").val(),
+                "carrierId": carrier._id,
+                "userId": "<%= session.user._id %>"
+            };
+            $.ajax({
+                url: '/api/comments',
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify(comment),
+                success: function(data) {
+                    window.location = '/carrier_comments/' + '<%= id %>';
+                }
+            });
+        });
+
+        function deleteComment(commentId) {
+            $.ajax({
+                url: '/api/comments/' + commentId,
+                contentType: 'application/json',
+                type: 'DELETE',
+                success: function(data) {
+                    window.location = '/carrier_comments/' + '<%= id %>';
+                }
+            });
+        }
+    </script>
+
+<% include partials/footer.ejs %>

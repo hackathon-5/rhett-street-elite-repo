@@ -6,7 +6,7 @@ var Client = require('../models/client.js');
 
 /* login user */
 router.post('/login', function(req, res, next) {
-    User.findOne({ email: req.params.email}, function(err, user) {
+    User.findOne({email: req.params.email}, function(err, user) {
     if (err)
       res.send(err);
     if (user && user.password == req.body.password) {

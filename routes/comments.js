@@ -20,10 +20,9 @@ router.post('/', function(req, res, next) {
   });
 });
 
-
 /* get all comments for a carrier */
-router.get('/list/:carrierId', function(req, res, next) {
-  Comment.find({ carrierId: req.params.carrierId }, function(err, comments) {
+router.get('/list/:carrier', function(req, res, next) {
+  Comment.find({ carrierId: req.params.carrier }, function(err, comments) {
     if (err)
       res.send(err);
     res.json(comments);
