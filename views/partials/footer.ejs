@@ -5,6 +5,15 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/javascripts/vendor/video.js"></script>
 <script src="/javascripts/flat-ui.min.js"></script>
-
+<script type="text/javascript">
+    function logout() {
+        $.ajax({
+            url: "/api/users/logout",
+            success: function() {
+                window.location = '/';
+            }
+        })
+    }
+</script>
 </body>
 </html>
