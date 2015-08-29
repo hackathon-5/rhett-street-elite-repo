@@ -11,35 +11,57 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-8 col-md-8" style="background-color: #34495e">
-            <div id="carrierInfo" style="color: #eeeeee">
+        <div  id="bleh" class="col-lg-8 col-md-8" style="background-color: #34495e; display:none;">
+            <div id="carrierInfo" class="pull-left" style="color: #eeeeee;">
                 <h6>Carrier Information</h6>
                 <div id="carrierName"></div>
                 <div id="carrierAddress"></div>
                 <div id="carrierCity"></div>
                 <div id="average"></div>
+                <div id="carrierId" style="display:none;"></div>
             </div>
-            <div class="spacer"></div>
+            <div class="clearfix"></div>
+            <% if (session.user.role != "carrier") { %>
+            <div id="addComment" class="pull-right" style="color: #eeeeee;">
+                <a onclick="showAddComment()"><i class="fa fa-plus"></i>Add Comment</a>
+            </div>
+            <div class="clearfix"></div>
+            <div id="addCommentStuff" style="display:none; color: #eeeeee">
+                <form class="form">
+                    <div class="form-group">
+                        <label for="addRating">Rating</label>
+                        <select class="form-control" name="addRating" id="addRating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="addCommentText">Comment</label>
+                        <input type="text" class="form-control" id="addCommentText" name="addCommentText"/>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-primary" id="comment-button">Comment</button>
+                        <button class="btn btn-cancel" id="cancel-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+            <% } %>
             <table id="comments" class="table table-striped well">
                 <thead>
-                    <tr><th>Commenter</th><th>Rating</th><th>Comment</th></tr>
+                    <tr>
+                        <th>Commenter</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <% if (session.user.role == "admin") { %>
+                            <th>Delete</th>
+                        <%}%>
+                    </tr>
                 </thead>
                 <tbody>
-                    <!--<tr>-->
-                        <!--<td class="commentor">Billy Joe</td>-->
-                        <!--<td class="commentRating">****</td>-->
-                        <!--<td class="commentText">Fred is a swell guy. He got me my load of bits right when he said it'd be here.</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td class="commentor">Billy Bob</td>-->
-                        <!--<td class="commentRating">***</td>-->
-                        <!--<td class="commentText">No Gord mafren. He got me my load of bits right when he said it'd be here.</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td class="commentor">Billy Joe</td>-->
-                        <!--<td class="commentRating">****</td>-->
-                        <!--<td class="commentText">Fred is a swell guy. He got me my load of bits right when he said it'd be here.</td>-->
-                    <!--</tr>-->
                 </tbody>
             </table>
         </div>
@@ -59,6 +81,7 @@
 
 <script type="text/javascript">
     $(function() {
+        $('#bleh').hide();
         $.ajax({
             url: '/api/carriers/list',
             type: 'GET',
@@ -78,8 +101,13 @@
         });
     });
 
+    var carrier = null;
+
     function getCarrierComments(id) {
-        var carrier = null;
+        $('#bleh').removeClass('animated fadeIn');
+        $('#bleh').addClass('animated fadeOut');
+        $('#blah').hide();
+
         $.ajax({
             url: '/api/carriers/' + id,
             type: 'GET',
@@ -99,6 +127,7 @@
                                     '<td class="commentor">' + data[i].userName + '</td>' +
                                     '<td class="commentRating">' + data[i].rating + '</td>' +
                                     '<td class="commentText">' + data[i].text + '</td>' +
+                                    <% if (session.user.role == "admin") { %>'<td class=delete><a onclick="deleteCommentDerp(\'' + data[i]._id + '\')">Delete</a></td>'<%}%> +
                                     '</tr>'
                             );
                             $('#comments').DataTable();
@@ -110,6 +139,65 @@
                         $('#average').text("Average Rating: " + averageRating);
                     }
                 });
+                $('#carrierId').text(data._id);
+                $('#bleh').removeClass('animated fadeOut');
+                $('#bleh').addClass('animated fadeIn');
+                $('#bleh').show();
+            }
+        });
+    }
+
+    function showAddComment() {
+        $('#addCommentStuff').removeClass('animated fadeOut');
+        $('#addCommentStuff').addClass('animated fadeIn');
+        $('#addCommentStuff').show();
+    }
+
+    $("#cancel-button").on('click', function(e) {
+        e.preventDefault();
+        var div = $('#addCommentStuff');
+        div.removeClass('animated fadeIn');
+        div.addClass('animated fadeOut');
+        div.hide();
+    });
+
+    $('#comment-button').on('click', function(e) {
+        e.preventDefault();
+        var rating = $('#addRating').val();
+        var comment = $('#addCommentText').val();
+
+        if (comment == '') {
+            alert("A comment is required");
+            return;
+        }
+        var commentData = {
+            "userName": "<%= session.user.name %>",
+            "text": comment,
+            "rating": rating,
+            "carrierId": carrier._id,
+            "userId": "<%= session.user._id %>"
+        };
+        $.ajax({
+            url: '/api/comments',
+            contentType: 'application/json',
+            type: 'POST',
+            data: JSON.stringify(commentData),
+            success: function(data) {
+                $('#addCommentStuff').removeClass('animated fadeIn');
+                $('#addCommentStuff').addClass('animated fadeOut');
+                $('#addCommentStuff').hide();
+                getCarrierComments(carrier._id);
+            }
+        });
+    });
+
+    function deleteCommentDerp(commentId) {
+        $.ajax({
+            url: '/api/comments/' + commentId,
+            contentType: 'application/json',
+            type: 'DELETE',
+            success: function(data) {
+                getCarrierComments(carrier._id);
             }
         });
     }
