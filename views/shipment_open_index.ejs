@@ -52,7 +52,6 @@
     <table class="table table-striped" id="mobile_shipments">
         <thead>
         <tr>
-            <th>Quotes</th>
             <th>Lane</th>
             <th>My Quote</th>
         </tr>
@@ -95,7 +94,6 @@
                             );
                             $('#mobile_shipments > tbody:last-child').append(
                                     '<tr>' +
-                                    '<td>' + '<a class="btn btn-warning" href="/shipment-quotes/' + shipments[i]._id + '"><i class="fa fa-dollar"></i> Other Quotes</a>' + '</td>' +
                                     '<td>' + shipments[i].origin + ' -> ' + shipments[i].destination + '</td>' +
                                     (quote == null ?
                                             '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');"><i class="fa fa-dollar"></i> Bid on Shipment</a></td>' :
