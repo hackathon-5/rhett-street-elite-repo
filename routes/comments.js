@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
   comment.save(function(err) {
     if (err)
       res.send(err);
-    Carrier.findOne({id: comment.carrierId}, function(err, carrier) {
+    Carrier.findOne({_id: comment.carrierId}, function(err, carrier) {
       if(err)
         res.send(err);
       carrier.totalComments += 1;

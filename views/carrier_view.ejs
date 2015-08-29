@@ -58,16 +58,13 @@
                     $.ajax({
                         url: '/api/comments/list/' + data._id,
                         success: function(data) {
-                            var totalRating = 0;
-                            var totalComments = data.length;
                             for(var i = 0; i < data.length; ++i) {
                                 $('#comments > tbody:last-child').append(
                                         '<tr><td>' + data[i].userName + '</td><td>' + data[i].rating + '</td></tr>' + ("<%= session.user.role %>" == "admin" ? '<tr><td>' + data[i].text + '</td><td align="right"><a class="btn btn-danger" href="javascript: deleteComment(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>' : '<tr><td colspan="2">' + data[i].text + '</td></tr>')
                                 );
-                                totalRating += parseInt(data[i].rating);
                             }
-                            if(totalComments != 0) {
-                                $("#avg_rating").text("Average Rating: " + (totalRating / totalComments));
+                            if(data.length != 0) {
+                                $("#avg_rating").text("Average Rating: " + carrier.averageRating);
                             } else {
                                 $("#avg_rating").text("Average Rating: N/A");
                             }

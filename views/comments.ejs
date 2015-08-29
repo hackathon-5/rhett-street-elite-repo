@@ -5,7 +5,7 @@
         <div class="col-lg-3 col-md-3 well">
             <table id="carriers" class="table table-striped">
                 <thead>
-                    <tr><th>Carrier Name</th></tr>
+                    <tr><th>Carrier Name</th><th>Rating</th></tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -49,7 +49,7 @@
         <h6>Carriers</h6>
         <table id="mobile_carriers" class="table table-striped">
             <thead>
-                <tr><th>Carrier Name</th></tr>
+                <tr><th>Carrier Name</th><th>Carrier Name</th></tr>
             </thead>
             <tbody>
             </tbody>
@@ -65,10 +65,10 @@
             success: function(data) {
                 for (var i = 0; i < data.length; ++i) {
                     $('#carriers > tbody:last-child').append(
-                            '<tr><td><a onclick="getCarrierComments(\'' + data[i]._id + '\')">' + data[i].name + '</a></td></tr>'
+                            '<tr><td><a onclick="getCarrierComments(\'' + data[i]._id + '\')">' + data[i].name + '</a></td><td>' + data[i].averageRating + '</td></tr>'
                     );
                     $('#mobile_carriers > tbody:last-child').append(
-                            '<tr><td><a href="/carrier_comments/' + data[i]._id + '">' + data[i].name + '</a></td></tr>'
+                            '<tr><td><a href="/carrier_comments/' + data[i]._id + '">' + data[i].name + '</a></td><td>' + data[i].averageRating + '</td></tr>'
                     );
                 }
             }
