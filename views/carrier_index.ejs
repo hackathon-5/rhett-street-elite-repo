@@ -4,7 +4,7 @@
         <a href="/carriers/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Carrier</a>
     </div>
     <div class="clearfix"></div>
-    <table class="table table-striped" id="users">
+    <table class="table table-striped" id="carriers">
         <thead>
         <tr>
             <th>Name</th>
@@ -33,11 +33,11 @@
             url: '/api/carriers/list',
             success: function(data) {
                 for(var i = 0; i < data.length; ++i) {
-                    $('#users > tbody:last-child').append(
+                    $('#carriers > tbody:last-child').append(
                             '<tr><td><a href="/carriers/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteCarrier(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                     );
                 }
-                $('#users').DataTable();
+                $('#carriers').DataTable();
             }
         });
     });

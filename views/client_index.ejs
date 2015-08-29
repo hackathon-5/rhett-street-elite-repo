@@ -3,7 +3,7 @@
     <div class="pull-right">
         <a href="/clients/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Carrier</a>
     </div>
-    <table class="table table-striped" id="users">
+    <table class="table table-striped" id="clients">
         <thead>
         <tr>
             <th>Name</th>
@@ -32,11 +32,11 @@
             url: '/api/clients/list',
             success: function(data) {
                 for(var i = 0; i < data.length; ++i) {
-                    $('#users > tbody:last-child').append(
+                    $('#clients > tbody:last-child').append(
                             '<tr><td><a href="/clients/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteClient(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                     );
                 }
-                $('#users').DataTable();
+                $('#clients').DataTable();
             }
         });
     });

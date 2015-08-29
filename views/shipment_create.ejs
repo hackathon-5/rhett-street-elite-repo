@@ -1,0 +1,103 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
+    <form class="form">
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="origin" id="origin" placeholder="Origin Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="destination" id="destination" placeholder="Destination Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pickupDate">Pickup Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="pickupDate" id="pickupDate" placeholder="Pickup Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="deliveryDate">Delivery Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="deliveryDate" id="deliveryDate" placeholder="Delivery Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></div>
+                <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-industry"></i></div>
+                <input type="text" class="form-control" name="description" id="description" placeholder="Description" />
+            </div>
+        </div>
+        <% if(session.user.role != "client") { %>
+        <div class="form-group">
+            <label for="client">Client:</label>
+            <select name="client" id="client" class="form-control"></select>
+        </div>
+        <% } %>
+        <div class="pull-right">
+            <button class="btn btn-primary" id="save-button"><i class="fa fa-save"></i> Save</button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    $('#save-button').on('click', function(e) {
+        e.preventDefault();
+        var shipment = {
+            "origin": $('#origin').val(),
+            "destination": $('#destination').val(),
+            "pickupDate": $('#destination').val(),
+            "deliveryDate": $('#deliveryDate').val(),
+            "weight": $('#weight').val(),
+            "description": $('#description').val(),
+            "status": "in-planning"
+        };
+        if ("<%= session.user.role %>" != "client") {
+            shipment.clientId = $("#client").val();
+        } else {
+            shipment.clientId = '<%= session.user.clientId %>';
+        }
+        $.ajax({
+            url: '/api/shipments',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(shipment),
+            success: function (data) {
+                if ("<%= session.user.role %>" == "admin") {
+                    window.location = '/shipments';
+                } else {
+                    window.location = '/my-shipments';
+                }
+            }
+        });
+    });
+    $(function() {
+        $.ajax({
+            url: '/api/clients/list',
+            success: function(data) {
+                for(var i = 0; i < data.length; ++i) {
+                    $('#client').append($('<option>', {
+                        value: data[i]._id,
+                        text: data[i].name
+                    }));
+                }
+            }
+        });
+    });
+</script>
+<% include partials/footer.ejs %>

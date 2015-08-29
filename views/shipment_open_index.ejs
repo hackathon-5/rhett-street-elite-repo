@@ -1,0 +1,73 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <% if(session.user.role == "client") { %>
+    <div class="pull-right">
+        <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
+    </div>
+    <div class="clearfix"></div>
+    <% } %>
+    <table class="table table-striped" id="shipments">
+        <thead>
+        <tr>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Pickup</th>
+            <th>Delivery</th>
+            <th>Status</th>
+            <th>Weight</th>
+            <th>Quote</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $.ajax({
+            url: '/api/shipments/list/carrierUnassigned',
+            success: function(data) {
+                var shipments = data;
+                $.ajax({
+                    url: '/api/quotes/list/carrier/' + '<%= session.user.carrierId %>',
+                    success: function (data) {
+                        var quotes = data;
+                        for (var i = 0; i < shipments.length; ++i) {
+                            var quote = null;
+                            for(var j = 0; j < quotes.length; ++j) {
+                                if(quotes[j].shipmentId == shipments[i]._id) {
+                                    quote = quotes[j];
+                                }
+                            }
+
+                            $('#shipments > tbody:last-child').append(
+                                    '<tr>' +
+                                    '<td>' + shipments[i].origin + '</td>' +
+                                    '<td>' + shipments[i].destination + '</td>' +
+                                    '<td>' + shipments[i].pickupDate + '</td>' +
+                                    '<td>' + shipments[i].deliveryDate + '</td>' +
+                                    '<td>' + shipments[i].status + '</td>' +
+                                    '<td>' + shipments[i].weight + '</td>' +
+                                    (quote == null ?
+                                        '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');">Bid on Shipment</a></td>' :
+                                        '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');">Change $' + quote.amount + ' Bid</a></td>'
+                                    ) + '</tr>'
+                            );
+                        }
+                        $('#shipments').DataTable();
+                    }
+                });
+            }
+        });
+    });
+
+    function bid(shipmentId) {
+        window.location = '/quotes/new/' + shipmentId;
+    }
+
+    function updateBid(quoteId) {
+        window.location = '/quotes/' + quoteId;
+    }
+</script>
+<% include partials/footer.ejs %>

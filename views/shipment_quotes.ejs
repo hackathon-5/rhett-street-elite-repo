@@ -1,0 +1,67 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-striped" id="quotes">
+        <thead>
+        <tr>
+            <th>Carrier</th>
+            <th>Amount</th>
+            <th>Approve</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function buildTableBody(i, quotes) {
+        if(i >= quotes.length) {
+            $('#quotes').DataTable();
+        } else {
+            $.ajax({
+                url: '/api/carriers/' + quotes[i].carrierId,
+                success: function(data) {
+                    $('#quotes > tbody:last-child').append(
+                            '<tr>' +
+                            '<td>' + data.name + '</td>' +
+                            '<td>' + quotes[i].amount + '</td>' +
+                            '<td>' + '<a class="btn btn-success" href="javascript: approveQuote(\'' + data._id + '\', \'' + quotes[i].shipmentId + '\');">Approve</a>' + '</td>' +
+                            '</tr>'
+                    );
+                    buildTableBody(i + 1, quotes);
+                }
+            });
+        }
+    }
+
+    function approveQuote(carrierId, shipmentId) {
+        $.ajax({
+            url: '/api/shipments/' + shipmentId,
+            success: function(data) {
+                var shipment = data;
+                shipment.status = "booked";
+                shipment.carrierId = carrierId;
+                $.ajax({
+                    url: '/api/shipments/' + shipmentId,
+                    type: "PUT",
+                    contentType: 'application/json',
+                    data: JSON.stringify(shipment),
+                    success: function (data) {
+                        window.location = '/my-shipments';
+                    }
+                });
+            }
+        });
+    }
+
+    $(function() {
+        $.ajax({
+            url: '/api/quotes/list/shipment/' + '<%= id %>',
+            success: function(data) {
+                var quotes = data;
+                buildTableBody(0, quotes);
+            }
+        });
+    });
+</script>
+<% include partials/footer.ejs %>

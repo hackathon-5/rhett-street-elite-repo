@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/datatables.css"/>
 
-    <script type="text/javascript" src="/javascripts/vendor/datatables.min.js"></script>
+    <script type="text/javascript" src="/javascripts/vendor/datatables.js"></script>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -49,9 +49,17 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/"><i class="fa fa-comment"></i> Comments</a></li>
                     <% if(session.user.role == 'admin') { %>
-                    <li><a href="/clients"><i class="fa fa-user-secret"></i>Clients</a></li>
-                    <li><a href="/carriers"><i class="fa fa-truck"></i> Carriers</a></li>
-                    <li><a href="/users"><i class="fa fa-users"></i> Users</a></li>
+                        <li><a href="/shipments"><i class="fa fa-truck"></i> Shipments</a></li>
+                    <% } else { %>
+                        <li><a href="/my-shipments"><i class="fa fa-truck"></i> My Shipments</a></li>
+                        <% if(session.user.role == 'carrier') { %>
+                            <li><a href="/open-shipments"><i class="fa fa-truck"></i> Open Shipments</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if(session.user.role == 'admin') { %>
+                        <li><a href="/clients"><i class="fa fa-user-secret"></i>Clients</a></li>
+                        <li><a href="/carriers"><i class="fa fa-truck"></i> Carriers</a></li>
+                        <li><a href="/users"><i class="fa fa-users"></i> Users</a></li>
                     <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

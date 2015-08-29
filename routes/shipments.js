@@ -26,6 +26,15 @@ router.post('/', function(req, res, next) {
 });
 
 /* get shipments per client */
+router.get('/list', function(req, res, next) {
+  Shipment.find({  }, function(err, shipment) {
+    if (err)
+      res.send(err);
+    res.json(shipment);
+  });
+});
+
+/* get shipments per client */
 router.get('/list/client/:clientId', function(req, res, next) {
   Shipment.find({ clientId: req.params.clientId }, function(err, shipment) {
     if (err)

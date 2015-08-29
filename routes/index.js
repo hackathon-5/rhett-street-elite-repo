@@ -109,4 +109,68 @@ router.get('/profile', function(req, res, next) {
   }
 });
 
+router.get('/shipments', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_index', {session: req.session});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/shipments/new', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_create', {session: req.session});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/shipments/:id', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_edit', {session: req.session, id: req.params.id});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/my-shipments', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_my_index', {session: req.session});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/open-shipments', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_open_index', {session: req.session});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/quotes/new/:shipment_id', function(req, res, next) {
+  if (req.session.user) {
+    res.render('quote_new', {session: req.session, id:req.params.shipment_id});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/quotes/:id', function(req, res, next) {
+  if (req.session.user) {
+    res.render('quote_edit', {session: req.session, id: req.params.id});
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/shipment-quotes/:id', function(req, res, next) {
+  if (req.session.user) {
+    res.render('shipment_quotes', {session: req.session, id: req.params.id});
+  } else {
+    res.redirect('/');
+  }
+});
+
 module.exports = router;

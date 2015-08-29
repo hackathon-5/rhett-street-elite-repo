@@ -1,0 +1,59 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="pull-right">
+        <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
+    </div>
+    <div class="clearfix"></div>
+    <table class="table table-striped" id="shipments">
+        <thead>
+        <tr>
+            <th>Edit</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Pickup</th>
+            <th>Delivery</th>
+            <th>Status</th>
+            <th>Weight</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    function deleteShipment(carrierId) {
+        $.ajax({
+            url: '/api/shipments/' + carrierId,
+            type: 'DELETE',
+            contentType: 'application/json',
+            success: function(data) {
+                window.location = '/shipments';
+            }
+        });
+    }
+
+    $(function() {
+        $.ajax({
+            url: '/api/shipments/list',
+            success: function(data) {
+                for(var i = 0; i < data.length; ++i) {
+                    $('#shipments > tbody:last-child').append(
+                            '<tr>' +
+                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td>' + data[i].origin + '</td>' +
+                            '<td>' + data[i].destination + '</td>' +
+                            '<td>' + data[i].pickupDate + '</td>' +
+                            '<td>' + data[i].deliveryDate + '</td>' +
+                            '<td>' + data[i].status + '</td>' +
+                            '<td>' + data[i].weight + '</td>' +
+                            '<td><a class="btn btn-danger" href="javascript: deleteShipment(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
+                    );
+                }
+                $('#shipments').DataTable();
+            }
+        });
+    });
+</script>
+<% include partials/footer.ejs %>

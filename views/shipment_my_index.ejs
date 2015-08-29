@@ -1,0 +1,75 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <% if(session.user.role == "client") { %>
+    <div class="pull-right">
+        <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
+    </div>
+    <div class="clearfix"></div>
+    <% } %>
+    <table class="table table-striped" id="shipments">
+        <thead>
+        <tr>
+            <th>Edit</th>
+            <% if(session.user.role == "client") { %>
+            <th>Quotes</th>
+            <% } %>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Pickup</th>
+            <th>Delivery</th>
+            <th>Status</th>
+            <th>Weight</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    <% if(session.user.role == "client") { %>
+    $(function() {
+        $.ajax({
+            url: '/api/shipments/list/client/' + '<%= session.user.clientId %>',
+            success: function(data) {
+                for(var i = 0; i < data.length; ++i) {
+                    $('#shipments > tbody:last-child').append(
+                            '<tr>' +
+                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            ("<%= session.user.role %>" == "client" && data[i].status == "in-planning" ? '<td><a href="/shipment-quotes/' + data[i]._id + '">Quotes</a></td>' : '<td></td>') +
+                            '<td>' + data[i].origin + '</td>' +
+                            '<td>' + data[i].destination + '</td>' +
+                            '<td>' + data[i].pickupDate + '</td>' +
+                            '<td>' + data[i].deliveryDate + '</td>' +
+                            '<td>' + data[i].status + '</td>' +
+                            '<td>' + data[i].weight + '</td></tr>'
+                    );
+                }
+                $('#shipments').DataTable();
+            }
+        });
+    });
+    <% } else { %>
+    $(function() {
+        $.ajax({
+            url: '/api/shipments/list/carrier/' + '<%= session.user.carrierId %>',
+            success: function(data) {
+                for(var i = 0; i < data.length; ++i) {
+                    $('#shipments > tbody:last-child').append(
+                            '<tr>' +
+                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td>' + data[i].origin + '</td>' +
+                            '<td>' + data[i].destination + '</td>' +
+                            '<td>' + data[i].pickupDate + '</td>' +
+                            '<td>' + data[i].deliveryDate + '</td>' +
+                            '<td>' + data[i].status + '</td>' +
+                            '<td>' + data[i].weight + '</td></tr>'
+                    );
+                }
+                $('#shipments').DataTable();
+            }
+        });
+    });
+    <% } %>
+</script>
+<% include partials/footer.ejs %>

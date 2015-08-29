@@ -1,0 +1,206 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
+    <form class="form">
+        <% if(session.user.role == "client") { %>
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="origin" id="origin" placeholder="Origin Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="destination" id="destination" placeholder="Destination Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pickupDate">Pickup Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="pickupDate" id="pickupDate" placeholder="Pickup Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="deliveryDate">Delivery Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="deliveryDate" id="deliveryDate" placeholder="Delivery Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></div>
+                <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-industry"></i></div>
+                <input type="text" class="form-control" name="description" id="description" placeholder="Description" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <label name="status" id="status"></label>
+        </div>
+        <% } else if(session.user.role == "client") { %>
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <label class="origin" id="origin"></label>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <label class="destination" id="destination"></label>
+        </div>
+        <div class="form-group">
+            <label for="pickupDate">Pickup Date:</label>
+            <label class="pickupDate" id="pickupDate"></label>
+        </div>
+        <div class="form-group">
+            <label for="deliveryDate">Delivery Date:</label>
+            <label class="deliveryDate" id="deliveryDate"></label>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <label class="weight" id="weight"></label>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <label class="description" id="description"></label>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" name="status" id="status">
+                <option value="in-planning">in-planning</option>
+                <option value="booked">booked</option>
+                <option value="in-transit">in-transit</option>
+                <option value="delivered">delivered</option>
+            </select>
+        </div>
+        <% } else { %>
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="origin" id="origin" placeholder="Origin Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                <input type="text" class="form-control" name="destination" id="destination" placeholder="Destination Postal" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pickupDate">Pickup Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="pickupDate" id="pickupDate" placeholder="Pickup Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="deliveryDate">Delivery Date:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                <input type="text" class="form-control" name="deliveryDate" id="deliveryDate" placeholder="Delivery Date" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></div>
+                <input type="text" class="form-control" name="weight" id="weight" placeholder="Weight" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-industry"></i></div>
+                <input type="text" class="form-control" name="description" id="description" placeholder="Description" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" name="status" id="status">
+                <option value="in-planning">in-planning</option>
+                <option value="booked">booked</option>
+                <option value="in-transit">in-transit</option>
+                <option value="delivered">delivered</option>
+            </select>
+        </div>
+        <% } %>
+        <div class="pull-right">
+            <button class="btn btn-primary" id="save-button"><i class="fa fa-save"></i> Save</button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $.ajax({
+            url: '/api/shipments/' + '<%= id %>',
+            success: function (data) {
+                if ("<%= session.user.role %>" == "client") {
+                    $('#origin').val(data.origin);
+                    $('#destination').val(data.destination);
+                    $('#pickupDate').val(data.pickupDate);
+                    $('#deliveryDate').val(data.deliveryDate);
+                    $('#weight').val(data.weight);
+                    $('#description').val(data.description);
+                    $('#status').text(data.status);
+                } else if("<%= session.user.role %>" == "carrier") {
+                    $('#origin').text(data.origin);
+                    $('#destination').text(data.destination);
+                    $('#pickupDate').text(data.pickupDate);
+                    $('#deliveryDate').text(data.deliveryDate);
+                    $('#weight').text(data.weight);
+                    $('#description').text(data.description);
+                    $('#status').val(data.status);
+                } else {
+                    $('#origin').val(data.origin);
+                    $('#destination').val(data.destination);
+                    $('#pickupDate').val(data.pickupDate);
+                    $('#deliveryDate').val(data.deliveryDate);
+                    $('#weight').val(data.weight);
+                    $('#description').val(data.description);
+                    $('#status').val(data.status);
+                }
+            }
+        });
+    });
+
+    $('#save-button').on('click', function(e) {
+        e.preventDefault();
+        if ("<%= session.user.role %>" == "client" || "<%= session.user.role %>" == "admin") {
+            shipment.origin = $('#origin').val();
+            shipment.destination = $('#destination').val();
+            shipment.pickupDate = $('#destination').val();
+            shipment.deliveryDate = $('#deliveryDate').val();
+            shipment.weight = $('#weight').val();
+            shipment.description = $('#description').val();
+        }
+        if ("<%= session.user.role %>" == "carrier" || "<%= session.user.role %>" == "admin") {
+            shipment.status = $('#status').val();
+        }
+        $.ajax({
+            url: '/api/shipments',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(shipment),
+            success: function (data) {
+                if ("<%= session.user.role %>" == "admin") {
+                    window.location = '/shipments';
+                } else {
+                    window.location = '/my-shipments';
+                }
+            }
+        });
+    });
+</script>
+<% include partials/footer.ejs %>

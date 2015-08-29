@@ -5,10 +5,9 @@ var Schema = mongoose.Schema;
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var QuoteSchema = new Schema({
-  ammount: { type: Number, required: true},
-  approved: { type: Boolean, required: true},
+  amount: { type: Number, required: true},
   carrierId: { type: ObjectId, required: true},
-  carrierName: { type: String, required: true}
+  shipmentId: { type: ObjectId, required: true}
 });
 
 module.exports = mongoose.model('Quote', QuoteSchema);

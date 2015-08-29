@@ -5,10 +5,9 @@ var Quote = require('../models/quote.js');
 /* Create Quote */
 router.post('/', function(req, res, next) {
   var quote = new Quote();
-  quote.ammount = req.body.ammount;
-  quote.approved = req.body.approved;
+  quote.amount = req.body.amount;
   quote.carrierId = req.body.carrierId;
-  quote.carrierName = req.body.carrierName;
+  quote.shipmentId = req.body.shipmentId;
 
   quote.save(function(err) {
   	if (err) {
@@ -33,14 +32,13 @@ router.delete('/', function(req, res, next) {
 });
 
 /* Update Quote */
-router.put('/', function(req, res, next) {
+router.put('/:id', function(req, res, next) {
   Quote.findById(req.params.id, function(err, quote) {
     if (err)
       res.send(err);
-    quote.ammount = req.body.ammount;
-    quote.approved = req.body.approved;
+    quote.amount = req.body.amount;
     quote.carrierId = req.body.carrierId;
-    quote.carrierName = req.body.carrierName;
+    quote.shipmentId = req.body.shipmentId;
     quote.save(function(err) {
       if (err)
         res.send(err);
@@ -50,7 +48,16 @@ router.put('/', function(req, res, next) {
 });
 
 /* Get quote */
-router.get('/id', function(req, res, next) {
+router.get('/list', function(req, res, next) {
+  Quote.find({}, function(err, quote) {
+    if (err)
+      res.send(err);
+    res.json(quote);
+  });
+});
+
+/* Get quote */
+router.get('/:id', function(req, res, next) {
   Quote.findById(req.params.id, function(err, quote) {
     if (err)
       res.send(err);
@@ -68,7 +75,7 @@ router.get('/list/shipment/:shipmentId', function(req, res, next) {
 });
 
 /* List Quotes by carrier */
-router.get('/list/shipment/:carrierId', function(req, res, next) {
+router.get('/list/carrier/:carrierId', function(req, res, next) {
   Quote.find({ carrierId: req.params.carrierId }, function(err, quotes) {
     if (err)
       res.send(err);
