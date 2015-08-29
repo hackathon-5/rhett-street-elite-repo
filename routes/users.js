@@ -9,7 +9,7 @@ router.post('/login', function(req, res, next) {
     User.findOne({ email: req.params.email}, function(err, user) {
     if (err)
       res.send(err);
-    if (user && user.password == res.body.password) {
+    if (user && user.password == req.body.password) {
       req.session.user = user;
       res.json({ "success": true });
     } else {
