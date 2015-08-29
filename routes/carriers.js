@@ -24,4 +24,30 @@ router.post('/', function(req, res, next) {
   })
 });
 
+router.put('/:id', function(req, res, next) {
+  Carrier.findById(req.params.id, function(err, carrier) {
+    if (err)
+      res.send(err);
+    carrier.name = req.body.name;
+    carrier.save(function (err) {
+      if (err)
+        res.send(err);
+      res.json(user);
+    });
+  });
+});
+
+/* Update user */
+router.delete('/:id', function(req, res, next) {
+  Carrier.findById(req.params.id, function(err, carrier) {
+    if (err)
+      res.send(err);
+    carrier.remove(function(err) {
+      if (err)
+        res.send(err);
+      res.json({ "success": true });
+    });
+  });
+});
+
 module.exports = router;

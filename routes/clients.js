@@ -24,4 +24,30 @@ router.post('/', function(req, res, next) {
   })
 });
 
+router.put('/:id', function(req, res, next) {
+  Client.findById(req.params.id, function(err, client) {
+    if (err)
+      res.send(err);
+    client.name = req.body.name;
+    client.save(function (err) {
+      if (err)
+        res.send(err);
+      res.json(user);
+    });
+  });
+});
+
+/* Update user */
+router.delete('/:id', function(req, res, next) {
+  Client.findById(req.params.id, function(err, client) {
+    if (err)
+      res.send(err);
+    client.remove(function(err) {
+      if (err)
+        res.send(err);
+      res.json({ "success": true });
+    });
+  });
+});
+
 module.exports = router;

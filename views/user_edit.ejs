@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="pull-right">
-                <button class="btn btn-primary" id="signup-button">Save</button>
+                <button class="btn btn-primary" id="save-button">Save</button>
             </div>
             <div class="clearfix"></div>
         </form>
@@ -50,31 +50,53 @@
                             text: data[i].name
                         }));
                     }
-                    if(data.length == 0) {
-                        $('#client_name').show();
-                    }
-                    $('#client').append($('<option>', {
-                        value: 'other',
-                        text: 'other'
-                    }));
+                    $.ajax({
+                        url: '/api/carriers/list',
+                        success: function(data) {
+                            for(var i = 0; i < data.length; ++i) {
+                                $('#carrier').append($('<option>', {
+                                    value: data[i]._id,
+                                    text: data[i].name
+                                }));
+                            }
+                            $.ajax({
+                                url: '/api/users/' + '<%= id %>',
+                                success: function(data) {
+                                    $('#name').val(data.name);
+                                    $('#email').val(data.email);
+                                    $('#password').val(data.password);
+                                    $('#role').val(data.role);
+                                    if(data.clientId) {
+                                        $('#client').val(data.clientId);
+                                    }
+                                    if(data.carrierId) {
+                                        $('#carrier').val(data.carrierId);
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
             });
+        });
+
+        $('#save-button').on('click', function(e) {
+            e.preventDefault();
+            var user = {
+                "name": $('#name').val(),
+                "email": $('#email').val(),
+                "password": $('#password').val(),
+                "role": $('#role').val(),
+                "clientId": $('#client').val(),
+                "carrierId": $('#carrier').val()
+            };
             $.ajax({
-                url: '/api/carriers/list',
+                url: '/api/users/' + '<%= id %>',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(user),
                 success: function(data) {
-                    for(var i = 0; i < data.length; ++i) {
-                        $('#carrier').append($('<option>', {
-                            value: data[i]._id,
-                            text: data[i].name
-                        }));
-                    }
-                    if(data.length == 0) {
-                        $('#carrier_name').show();
-                    }
-                    $('#carrier').append($('<option>', {
-                        value: 'other',
-                        text: 'other'
-                    }));
+                    window.location = '/users/' + '<%= id %>';
                 }
             });
         });
