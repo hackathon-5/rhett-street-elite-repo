@@ -2,7 +2,7 @@
 <% if(session && session.user) { %>
 <div class="hidden-xs hidden-sm">
     <!-- Larger Screens -->
-        <div class="col-lg-3 col-md-3 well">
+        <div class="col-lg-4 col-md-4 well">
             <table id="carriers" class="table table-striped">
                 <thead>
                     <tr><th>Carrier Name</th><th>Rating</th></tr>
@@ -11,7 +11,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-9 col-md-9" style="background-color: #34495e">
+        <div class="col-lg-8 col-md-8" style="background-color: #34495e">
             <div id="carrierInfo" style="color: #eeeeee">
                 <h6>Carrier Information</h6>
                 <div id="carrierName"></div>
@@ -79,36 +79,37 @@
     });
 
     function getCarrierComments(id) {
-        $.ajax({
-            url: '/api/comments/list/' + id,
-            type: 'GET',
-            success: function(data) {
-                var ratingSum = 0;
-                for (var i = 0; i < data.length; ++i) {
-                    ratingSum += data[i].rating;
-                    $('#comments > tbody:last-child').append(
-                            '<tr>' +
-                            '<td class="commentor">' + data[i].userName + '</td>' +
-                            '<td class="commentRating">' + data[i].rating + '</td>' +
-                            '<td class="commentText">' + data[i].text + '</td>' +
-                            '</tr>'
-                    );
-                }
-                var averageRating = "N/A";
-                if (data.length > 0) {
-                    averageRating = ratingSum / data.length
-                }
-                $('#average').text("Average Rating: " + averageRating);
-            }
-        });
-
+        var carrier = null;
         $.ajax({
             url: '/api/carriers/' + id,
             type: 'GET',
             success: function(data) {
+                carrier = data;
                 $('#carrierName').text(data.name);
                 $('#carrierAddress').text(data.address);
                 $('#carrierCity').text(data.city + ' ' + data.state + ' ' + data.zip);
+                $("#comments tbody tr").remove();
+                $.ajax({
+                    url: '/api/comments/list/' + id,
+                    type: 'GET',
+                    success: function(data) {
+                        for (var i = 0; i < data.length; ++i) {
+                            $('#comments > tbody:last-child').append(
+                                    '<tr>' +
+                                    '<td class="commentor">' + data[i].userName + '</td>' +
+                                    '<td class="commentRating">' + data[i].rating + '</td>' +
+                                    '<td class="commentText">' + data[i].text + '</td>' +
+                                    '</tr>'
+                            );
+                            $('#comments').DataTable();
+                        }
+                        var averageRating = "N/A";
+                        if (data.length > 0) {
+                            averageRating = carrier.averageRating;
+                        }
+                        $('#average').text("Average Rating: " + averageRating);
+                    }
+                });
             }
         });
     }
