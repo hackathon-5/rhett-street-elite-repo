@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="carrier">Company Name:</label>
                     <select name="carrier" id="carrier" class="form-control"></select>
-                    <div class="input-group">
+                    <div class="input-group client_name_group">
                         <div class="input-group-addon"><i class="fa fa-pencil"></i></div>
                         <input type="text" name="client_name" id="carrier_name" class="form-control" placeholder="Company Name"/>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <label for="client">Company Name:</label>
                     <select name="client" id="client" class="form-control"></select>
-                    <div class="input-group">
+                    <div class="input-group carrier_name_group">
                         <div class="input-group-addon"><i class="fa fa-pencil"></i></div>
                         <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Company Name"/>
                     </div>
@@ -81,16 +81,16 @@
         });
         $('#carrier').on('change', function() {
             if(this.value == 'other') {
-                $('#carrier_name').show();
+                $('#carrier_name_group').show();
             } else {
-                $('#carrier_name').hide();
+                $('#carrier_name_group').hide();
             }
         });
         $('#client').on('change', function() {
             if(this.value == 'other') {
-                $('#client_name').show();
+                $('#client_name_group').show();
             } else {
-                $('#client_name').hide();
+                $('#client_name_group').hide();
             }
         });
         $('#signup-button').on('click', function(e) {
@@ -111,12 +111,12 @@
             if($('#type').val() == '1') {
                 user.role = 'client';
                 if($('#type').val() == '1' && $('#client').val() != 'other') {
-                    user.clientId = $('client').val();
+                    user.clientId = $('#client').val();
                 }
             } else {
                 user.role = 'carrier';
                 if($('#type').val() == '2' && $('#client').val() != 'other') {
-                    user.carrierId = $('carrier').val();
+                    user.carrierId = $('#carrier').val();
                 }
             }
             saveUser(user, function(data) {
@@ -146,8 +146,8 @@
                 }
             });
         });
-        $('#carrier_name').hide();
-        $('#client_name').hide();
+        $('#carrier_name_group').hide();
+        $('#client_name_group').hide();
         $('.carrier').hide();
         $('.client').hide();
 
@@ -210,7 +210,7 @@
                         }));
                     }
                     if(data.length == 0) {
-                        $('#client_name').show();
+                        $('#client_name_group').show();
                     }
                     $('#client').append($('<option>', {
                         value: 'other',
@@ -228,7 +228,7 @@
                         }));
                     }
                     if(data.length == 0) {
-                        $('#carrier_name').show();
+                        $('#carrier_name_group').show();
                     }
                     $('#carrier').append($('<option>', {
                         value: 'other',

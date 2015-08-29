@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   name: { type: String, required : true},
   email: { type: String, unique : true, required : true, dropDups: true},
   password: { type: String },
-  role: { type: String, enum: ['carrier.', 'client', 'admin']},
+  role: { type: String, enum: ['carrier', 'client', 'admin']},
   carrierId: ObjectId,
   clientId: ObjectId
 });

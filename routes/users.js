@@ -6,7 +6,7 @@ var Client = require('../models/client.js');
 
 /* login user */
 router.post('/login', function(req, res, next) {
-    User.findOne({email: req.params.email}, function(err, user) {
+    User.findOne({email: req.body.email}, function(err, user) {
     if (err)
       res.send(err);
     if (user && user.password == req.body.password) {
@@ -25,7 +25,7 @@ router.get('/logout', function(req, res, next) {
 });
 
 router.get('/list', function(req, res, next) {
-    User.find(function(err, users) {
+  User.find(function(err, users) {
     if (err)
       res.send(err);
     res.json(users);
