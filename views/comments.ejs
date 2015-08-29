@@ -1,30 +1,40 @@
 <% include partials/header.ejs %>
 <% if(session && session.user) { %>
-<div class="col-xs-hidden col-sm-hidden">
+<div class="hidden-xs hidden-sm">
     <!-- Larger Screens -->
-    <div class="well">
-        <div class="col-lg-3 col-md-3">
-            <h5>Carriers</h5>
+        <div class="col-lg-3 col-md-3 well">
+            <h6>Carriers</h6>
+            <table id="carriers" class="table table-striped">
+                <thead>
+                    <tr><th>Carrier Name</th></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
         <div class="col-lg-9 col-md-9">
-            <h5>Comments</h5>
+            <h6>Comments</h6>
+            
         </div>
-    </div>
 </div>
-<div class="col-lg-hidden col-md-hidden">
+<div class="hidden-lg hidden-md">
     <!-- Smaller Screens -->
 </div>
 
 <script type="text/javascript">
-    function getCarriers() {
+    $(function() {
         $.ajax({
             url: '/api/carriers/list',
             type: 'GET',
             success: function(data) {
-                return data;
+                for(var i = 0; i < data.length; ++i) {
+                    $('#carriers > tbody:last-child').append(
+                            '<tr><td><a href="/carriers/' + data[i]._id + '">' + data[i].name + '</a></td></tr>'
+                    );
+                }
             }
-        })
-    }
+        });
+    });
 </script>
 <% } %>
 <% include partials/footer.ejs %>
