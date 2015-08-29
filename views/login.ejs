@@ -1,22 +1,52 @@
 <% include partials/header.ejs %>
 
-<%
-    if (session && session.user) {
-        req.redirect('/');
-    }
-%>
-
 <div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 well">
     <form class="form">
-        <div id="form-group">
+        <div class="form-group">
             <label for="hackEmail">Email</label>
-            <input type="text" class="form-control" id="hackEmail" placeholder="Email" />
+            <input type="text" class="form-control" name="hackEmail" id="hackEmail" placeholder="Email" />
         </div>
-        <div id="form-group">
+        <div class="form-group">
             <label for="hackPassword">Password</label>
-            <input type="password" class="form-control" id="hackPassword" placeholder="Password" />
+            <input type="password" class="form-control" name="hackPassword" id="hackPassword" placeholder="Password" />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" id="login-button">Login</button>
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    $('#login-button').on('click', function(e) {
+        e.preventDefault();
+        var email = $('#hackEmail').val();
+        var password = $('#hackPassword').val();
+        console.log(email + ' :: ' + password);
+
+        if (email == '') {
+            alert("Please enter your Email Address");
+            return;
+        }
+
+        if (password == '') {
+            alert("Please enter your password");
+            return;
+        }
+
+        $.ajax({
+            url: '/api/users/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({"email": email, "password": password}),
+            success: function (data) {
+                if (data.success) {
+                    window.location = '/';
+                } else {
+                    alert ("Your username/password are incorrect");
+                }
+            }
+        });
+    });
+</script>
 
 <% include partials/footer.ejs %>
