@@ -7,6 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('yelp-for-truckers:server');
 var http = require('http');
+var mongoose   = require('mongoose');
+
+/**
+ * MongoDB Stuff
+ */
+var mongoUrl = process.env.MONGO_URI || 'mongodb://localdev:27017/keeptruckin'
+mongoose.connect(mongoUrl); 
 
 /**
  * Get port from environment and store in Express.
