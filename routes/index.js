@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('comments', {session: req.session});
+  if(req.session.user) {
+    res.render('comments', {session: req.session});
+  } else {
+    res.redirect('/login');
+  }
 });
 
 router.get('/carrier_comments/:id', function(req, res, next) {
