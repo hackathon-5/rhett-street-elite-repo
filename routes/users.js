@@ -5,7 +5,7 @@ var Carrier = require('../models/carrier.js')
 var Client = require('../models/client.js');
 
 
-router.get('/:id', function(req, res, next) {
+router.get('/list', function(req, res, next) {
     User.find(function(err, users) {
     if (err)
       res.send(err);
