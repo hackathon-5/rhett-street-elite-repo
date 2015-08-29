@@ -59,7 +59,6 @@
             }
         });
         $('#carrier').on('change', function() {
-            alert(this.value);
             if(this.value == 'other') {
                 $('#carrier_name').show();
             } else {
@@ -67,7 +66,6 @@
             }
         });
         $('#client').on('change', function() {
-            alert(this.value);
             if(this.value == 'other') {
                 $('#client_name').show();
             } else {
@@ -184,7 +182,7 @@
             $.ajax({
                 url: '/clients/list',
                 success: function(data) {
-                    for(var i = 0; i < data.lenght; ++i) {
+                    for(var i = 0; i < data.length; ++i) {
                         $('#client').append($('<option>', {
                             value: data[i]._id,
                             text: data[i].name
@@ -202,7 +200,7 @@
             $.ajax({
                 url: '/carriers/list',
                 success: function(data) {
-                    for(var i = 0; i < data.lenght; ++i) {
+                    for(var i = 0; i < data.length; ++i) {
                         $('#carrier').append($('<option>', {
                             value: data[i]._id,
                             text: data[i].name
