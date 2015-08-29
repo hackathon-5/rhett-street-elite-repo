@@ -57,14 +57,14 @@ router.delete('/:id', function(req, res, next) {
                 if(err) {
                     res.send(err);
                 }
-            });
-        });
-        comment.remove(function(err) {
-            if (err) {
-                res.send(err);
-            }
+                comment.remove(function(err) {
+                    if (err) {
+                        res.send(err);
+                    }
 
-            res.json({ "success": true });
+                    res.json({ "success": true });
+                });
+            });
         });
     });
 });
