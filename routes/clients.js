@@ -11,6 +11,14 @@ router.get('/list', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next) {
+  Client.findById(req.params.id, function(err, client) {
+    if (err)
+      res.send(err);
+    res.json(client);
+  });
+});
+
 /* Create Client */
 router.post('/', function(req, res, next) {
   var client = new Client();

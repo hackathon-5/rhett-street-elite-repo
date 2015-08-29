@@ -14,7 +14,7 @@
 <script type="text/javascript">
     $(function() {
         $.ajax({
-            url: '/api/clients/' + '<%= id %>',
+            url: '/api/carriers/' + '<%= id %>',
             success: function (data) {
                 $('#name').val(data.name);
             }
@@ -23,16 +23,16 @@
 
     $('#save-button').on('click', function(e) {
         e.preventDefault();
-        var client = {
+        var carrier = {
             "name": $('#name').val()
         };
         $.ajax({
-            url: '/api/clients/' + '<%= id %>',
+            url: '/api/carriers/' + '<%= id %>',
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(client),
+            data: JSON.stringify(carrier),
             success: function(data) {
-                window.location = '/clients/' + '<%= id %>';
+                window.location = '/carriers/' + '<%= id %>';
             }
         });
     });

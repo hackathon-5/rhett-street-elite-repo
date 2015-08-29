@@ -1,8 +1,9 @@
 <% include partials/header.ejs %>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
     <div class="pull-right">
-        <a href="/clients/new" class="btn btn-success">Add New Carrier</a>
+        <a href="/carriers/new" class="btn btn-success">Add New Carrier</a>
     </div>
+    <div class="clearfix"></div>
     <table class="table table-striped" id="users">
         <thead>
         <tr>
@@ -16,24 +17,24 @@
     </table>
 </div>
 <script type="text/javascript">
-    function deleteClient(clientId) {
+    function deleteCarrier(carrierId) {
         $.ajax({
-            url: '/api/clients/' + clientId,
+            url: '/api/carriers/' + carrierId,
             type: 'DELETE',
             contentType: 'application/json',
             success: function(data) {
-                window.location = '/clients';
+                window.location = '/carriers';
             }
         });
     }
 
     $(function() {
         $.ajax({
-            url: '/api/clients/list',
+            url: '/api/carriers/list',
             success: function(data) {
                 for(var i = 0; i < data.length; ++i) {
                     $('#users > tbody:last-child').append(
-                            '<tr><td><a href="/clients/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteClient(\'' + data[i]._id + '\');">Delete</a></td></tr>'
+                            '<tr><td><a href="/carriers/' + data[i]._id + '">' + data[i].name + '</a></td><td><a class="btn btn-danger" href="javascript: deleteCarrier(\'' + data[i]._id + '\');">Delete</a></td></tr>'
                     );
                 }
             }

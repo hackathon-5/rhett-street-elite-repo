@@ -43,7 +43,11 @@
             <% if(session && session.user) { %>
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/">Comments</a></li>
+                    <% if(session.user.role == 'admin') { %>
+                    <li><a href="/clients">Clients</a></li>
+                    <li><a href="/carriers">Carriers</a></li>
                     <li><a href="/users">Users</a></li>
+                    <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="javascript: logout();">Logout</a></li>

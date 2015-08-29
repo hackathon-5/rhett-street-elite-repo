@@ -11,6 +11,14 @@ router.get('/list', function(req, res, next) {
   });
 });
 
+router.get('/:id', function(req, res, next) {
+  Carrier.findById(req.params.id, function(err, carrier) {
+    if (err)
+      res.send(err);
+    res.json(carrier);
+  });
+});
+
 /* Create Carrier */
 router.post('/', function(req, res, next) {
   var carrier = new Carrier();

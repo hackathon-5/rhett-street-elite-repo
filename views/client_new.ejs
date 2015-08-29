@@ -12,27 +12,18 @@
     </form>
 </div>
 <script type="text/javascript">
-    $(function() {
-        $.ajax({
-            url: '/api/clients/' + '<%= id %>',
-            success: function (data) {
-                $('#name').val(data.name);
-            }
-        });
-    });
-
     $('#save-button').on('click', function(e) {
         e.preventDefault();
         var client = {
             "name": $('#name').val()
         };
         $.ajax({
-            url: '/api/clients/' + '<%= id %>',
-            type: 'PUT',
+            url: '/api/clients',
+            type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(client),
             success: function(data) {
-                window.location = '/clients/' + '<%= id %>';
+                window.location = '/clients';
             }
         });
     });
