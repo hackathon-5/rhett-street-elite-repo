@@ -1,5 +1,5 @@
 <% include partials/header.ejs %>
-
+<% if(session && session.user) { %>
 <div class="col-xs-hidden col-sm-hidden">
     <!-- Larger Screens -->
     <div class="well">
@@ -26,5 +26,5 @@
         })
     }
 </script>
-
+<% } %>
 <% include partials/footer.ejs %>

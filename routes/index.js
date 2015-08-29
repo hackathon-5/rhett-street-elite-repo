@@ -97,8 +97,4 @@ router.get('/profile', function(req, res, next) {
   }
 });
 
-router.get('/comments', function(req, res, next) {
-  res.render('comments', {session: req.session});
-});
-
 module.exports = router;
