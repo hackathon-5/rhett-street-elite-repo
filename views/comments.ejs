@@ -1,9 +1,9 @@
 <% include partials/header.ejs %>
 <% if(session && session.user) { %>
-<div class="hidden-xs hidden-sm">
+<div class="hidden-xs hidden-sm hidden-md">
     <!-- Larger Screens -->
     <div class="row-fluid">
-        <div id="bleh-younger-brother" class="col-lg-6 col-md-6 well">
+        <div id="bleh-younger-brother" class="col-lg-6 well">
             <table id="carriers" class="table table-striped">
                 <thead>
                     <tr><th>Carrier Name</th><th>Rating</th></tr>
@@ -12,7 +12,7 @@
                 </tbody>
             </table>
         </div>
-        <div  id="bleh" class="col-lg-6 col-md-6 well" style="background-color: #34495e; display:none;">
+        <div  id="bleh" class="col-lg-6 well" style="background-color: #34495e; display:none;">
             <div class="pull-left" style="color: #eeeeee; margin-right: 10px;">
                 <img src="images/icons/png/truck.png" width="115px"/>
             </div>
@@ -72,8 +72,8 @@
         </div>
     </div>
 </div>
-<div class="hidden-lg hidden-md">
-    <div class="col-xs-12 col-sm-12 well">
+<div class="hidden-lg">
+    <div class="col-xs-12 col-sm-12 col-md-12 well">
         <h6>Carriers</h6>
         <table id="mobile_carriers" class="table table-striped">
             <thead>
