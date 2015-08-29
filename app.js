@@ -29,9 +29,9 @@ app.use(session({ secret: 'definitely not a coke smuggling app' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
-app.use('/clients', clients);
-app.use('/carriers', carriers);
+app.use('/api/users', users);
+app.use('/api/clients', clients);
+app.use('/api/carriers', carriers);
 app.use('/', signupRoutes);
 app.use('/', loginRoutes);
 

@@ -132,7 +132,7 @@
 
         function saveUser(user, callback) {
             $.ajax({
-                url: '/users',
+                url: '/api/users',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(user),
@@ -144,7 +144,7 @@
 
         function saveCarrier(carrier, callback) {
             $.ajax({
-                url: '/carriers',
+                url: '/api/carriers',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(carrier),
@@ -156,7 +156,7 @@
 
         function saveClient(client, callback) {
             $.ajax({
-                url: '/clients',
+                url: '/api/clients',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(client),
@@ -168,7 +168,7 @@
 
         function updateUser(user, callback) {
             $.ajax({
-                url: '/users/' + user._id,
+                url: '/api/users/' + user._id,
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(user),
@@ -180,7 +180,7 @@
 
         $(function() {
             $.ajax({
-                url: '/clients/list',
+                url: '/api/clients/list',
                 success: function(data) {
                     for(var i = 0; i < data.length; ++i) {
                         $('#client').append($('<option>', {
@@ -198,7 +198,7 @@
                 }
             });
             $.ajax({
-                url: '/carriers/list',
+                url: '/api/carriers/list',
                 success: function(data) {
                     for(var i = 0; i < data.length; ++i) {
                         $('#carrier').append($('<option>', {
