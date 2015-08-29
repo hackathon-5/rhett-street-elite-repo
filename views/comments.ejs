@@ -183,9 +183,11 @@
             type: 'POST',
             data: JSON.stringify(commentData),
             success: function(data) {
-                $('#addCommentStuff').removeClass('animated fadeIn');
-                $('#addCommentStuff').addClass('animated fadeOut');
-                $('#addCommentStuff').hide();
+                $('#addCommentText').val("");
+                var addComment = $('#addCommentStuff');
+                addComment.removeClass('animated fadeIn');
+                addComment.addClass('animated fadeOut');
+                addComment.hide();
                 getCarrierComments(carrier._id);
             }
         });
