@@ -11,8 +11,7 @@
         <thead>
         <tr>
             <th>Quotes</th>
-            <th>Origin</th>
-            <th>Destination</th>
+            <th>Lane</th>
             <th>Pickup</th>
             <th>Delivery</th>
             <th>Status</th>
@@ -66,25 +65,24 @@
 
                             $('#shipments > tbody:last-child').append(
                                     '<tr>' +
-                                    '<td>' + '<a href="/shipment-quotes/' + shipments[i]._id + '">Other Quotes</a>' + '</td>' +
-                                    '<td>' + shipments[i].origin + '</td>' +
-                                    '<td>' + shipments[i].destination + '</td>' +
+                                    '<td>' + '<a class="btn btn-warning" href="/shipment-quotes/' + shipments[i]._id + '"><i class="fa fa-dollar"></i> Other Quotes</a>' + '</td>' +
+                                    '<td>' + shipments[i].origin + ' -> ' + shipments[i].destination + '</td>' +
                                     '<td>' + shipments[i].pickupDate + '</td>' +
                                     '<td>' + shipments[i].deliveryDate + '</td>' +
                                     '<td>' + shipments[i].status + '</td>' +
                                     '<td>' + shipments[i].weight + '</td>' +
                                     (quote == null ?
-                                        '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');">Bid on Shipment</a></td>' :
-                                        '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');">Change $' + quote.amount + ' Bid</a></td>'
+                                        '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');"><i class="fa fa-dollar"></i> Bid on Shipment</a></td>' :
+                                        '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');"><i class="fa fa-dollar"></i> Change $' + quote.amount + ' Bid</a></td>'
                                     ) + '</tr>'
                             );
                             $('#mobile_shipments > tbody:last-child').append(
                                     '<tr>' +
-                                    '<td>' + '<a href="/shipment-quotes/' + shipments[i]._id + '">Other Quotes</a>' + '</td>' +
+                                    '<td>' + '<a class="btn btn-warning" href="/shipment-quotes/' + shipments[i]._id + '"><i class="fa fa-dollar"></i> Other Quotes</a>' + '</td>' +
                                     '<td>' + shipments[i].origin + ' -> ' + shipments[i].destination + '</td>' +
                                     (quote == null ?
-                                            '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');">Bid on Shipment</a></td>' :
-                                            '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');">Change $' + quote.amount + ' Bid</a></td>'
+                                            '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');"><i class="fa fa-dollar"></i> Bid on Shipment</a></td>' :
+                                            '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');"><i class="fa fa-dollar"></i> Change $' + quote.amount + ' Bid</a></td>'
                                     ) + '</tr>'
                             );
                         }

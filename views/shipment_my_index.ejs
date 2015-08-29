@@ -59,8 +59,8 @@
                 for(var i = 0; i < data.length; ++i) {
                     $('#shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
-                            ("<%= session.user.role %>" == "client" && data[i].status == "in-planning" ? '<td><a href="/shipment-quotes/' + data[i]._id + '">Quotes</a></td>' : '<td></td>') +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
+                            ("<%= session.user.role %>" == "client" && data[i].status == "in-planning" ? '<td><a class="btn btn-warning" href="/shipment-quotes/' + data[i]._id + '"><i class="fa fa-money"></i> Quotes</a></td>' : '<td></td>') +
                             '<td>' + data[i].origin + '</td>' +
                             '<td>' + data[i].destination + '</td>' +
                             '<td>' + data[i].pickupDate + '</td>' +
@@ -70,8 +70,8 @@
                     );
                     $('#mobile_shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
-                            ("<%= session.user.role %>" == "client" && data[i].status == "in-planning" ? '<td><a href="/shipment-quotes/' + data[i]._id + '">Quotes</a></td>' : '<td></td>') +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
+                            ("<%= session.user.role %>" == "client" && data[i].status == "in-planning" ? '<td><a class="btn btn-warning" href="/shipment-quotes/' + data[i]._id + '"><i class="fa fa-money"></i> Quotes</a></td>' : '<td></td>') +
                             '<td>' + data[i].origin + ' -> ' + data[i].destination + '</td></tr>'
                     );
                 }
@@ -87,7 +87,7 @@
                 for(var i = 0; i < data.length; ++i) {
                     $('#shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
                             '<td>' + data[i].origin + '</td>' +
                             '<td>' + data[i].destination + '</td>' +
                             '<td>' + data[i].pickupDate + '</td>' +
@@ -97,7 +97,7 @@
                     );
                     $('#mobile_shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
                             '<td>' + data[i].origin + ' -> ' + data[i].destination + '</td></tr>'
                     );
                 }

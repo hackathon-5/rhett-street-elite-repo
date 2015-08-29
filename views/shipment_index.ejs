@@ -61,7 +61,7 @@
                 for(var i = 0; i < data.length; ++i) {
                     $('#shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
                             '<td>' + data[i].origin + '</td>' +
                             '<td>' + data[i].destination + '</td>' +
                             '<td>' + data[i].pickupDate + '</td>' +
@@ -72,7 +72,7 @@
                     );
                     $('#mobile_shipments > tbody:last-child').append(
                             '<tr>' +
-                            '<td><a href="/shipments/' + data[i]._id + '">Edit</a></td>' +
+                            '<td><a class="btn btn-info" href="/shipments/' + data[i]._id + '"><i class="fa fa-pencil-square-o"></i> Edit</a></td>' +
                             '<td>' + data[i].origin + ' -> ' + data[i].destination+ '</td>' +
                             '<td><a class="btn btn-danger" href="javascript: deleteShipment(\'' + data[i]._id + '\');"><i class="fa fa-trash"></i> Delete</a></td></tr>'
                     );
