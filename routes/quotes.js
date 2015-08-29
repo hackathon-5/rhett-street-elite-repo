@@ -60,7 +60,7 @@ router.get('/id', function(req, res, next) {
 
 /* List Quotes by shipment */
 router.get('/list/shipment/:shipmentId', function(req, res, next) {
-  Quote.find({ shipmentId: req.params.shipmentId, function(err, quotes) {
+  Quote.find({ shipmentId: req.params.shipmentId }, function(err, quotes) {
     if (err)
       res.send(err);
     res.json(quotes);
@@ -69,7 +69,7 @@ router.get('/list/shipment/:shipmentId', function(req, res, next) {
 
 /* List Quotes by carrier */
 router.get('/list/shipment/:carrierId', function(req, res, next) {
-  Quote.find({ carrierId: req.params.carrierId, function(err, quotes) {
+  Quote.find({ carrierId: req.params.carrierId }, function(err, quotes) {
     if (err)
       res.send(err);
     res.json(quotes);
