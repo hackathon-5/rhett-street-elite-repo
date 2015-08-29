@@ -60,4 +60,26 @@ router.put('/:id', function(req, res, next) {
   });
 });
 
+/* login user */
+router.post('/login', function(req, res, next) {
+    User.findOne({ email: req.params.email}, function(err, user) {
+    if (err)
+      res.send(err);
+    if (user.password == res.body.password) {
+      req.session.user = user;
+      res.json({ "success": true });
+    } else {
+      res.json({ "success": false });
+    }
+  });
+});
+
+/* login user */
+router.get('/logout', function(req, res, next) {
+  req.session.user = null;
+  res.json({ "success": true });
+});
+
+
+
 module.exports = router;
