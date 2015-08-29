@@ -7,7 +7,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var CommentSchema = new Schema({
   userName: { type: String, required : true },
   text: { type: String, required : true },
-  rating: { type: Number, required: true }
+  rating: { type: Number, required: true },
   carrierId: { type : ObjectId, required: true },
   userId: { type: ObjectId, required: true }
 });
