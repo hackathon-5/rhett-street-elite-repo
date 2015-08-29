@@ -5,7 +5,9 @@
         <tr>
             <th>Carrier</th>
             <th>Amount</th>
+            <% if(session.user.role == "client") { %>
             <th>Approve</th>
+            <% } %>
         </tr>
         </thead>
         <tbody>
@@ -25,7 +27,9 @@
                             '<tr>' +
                             '<td>' + data.name + '</td>' +
                             '<td>' + quotes[i].amount + '</td>' +
+                            <% if(session.user.role == "client") { %>
                             '<td>' + '<a class="btn btn-success" href="javascript: approveQuote(\'' + data._id + '\', \'' + quotes[i].shipmentId + '\');">Approve</a>' + '</td>' +
+                            <% } %>
                             '</tr>'
                     );
                     buildTableBody(i + 1, quotes);

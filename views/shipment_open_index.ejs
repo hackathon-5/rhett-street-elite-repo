@@ -9,13 +9,14 @@
     <table class="table table-striped" id="shipments">
         <thead>
         <tr>
+            <th>Quotes</th>
             <th>Origin</th>
             <th>Destination</th>
             <th>Pickup</th>
             <th>Delivery</th>
             <th>Status</th>
             <th>Weight</th>
-            <th>Quote</th>
+            <th>My Quote</th>
         </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
 
                             $('#shipments > tbody:last-child').append(
                                     '<tr>' +
+                                    '<td>' + '<a href="/shipment-quotes/' + data[i]._id + '">Other Quotes</a>' + '</td>' +
                                     '<td>' + shipments[i].origin + '</td>' +
                                     '<td>' + shipments[i].destination + '</td>' +
                                     '<td>' + shipments[i].pickupDate + '</td>' +
