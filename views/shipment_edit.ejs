@@ -59,11 +59,11 @@
         </div>
         <div class="form-group">
             <label for="pickupDate">Pickup Date:</label>
-            <label class="pickupDate" id="pickupDate"></label>
+            <label class="pickupDate datepicker" id="pickupDate"></label>
         </div>
         <div class="form-group">
             <label for="deliveryDate">Delivery Date:</label>
-            <label class="deliveryDate" id="deliveryDate"></label>
+            <label class="deliveryDate datepicker" id="deliveryDate"></label>
         </div>
         <div class="form-group">
             <label for="weight">Weight:</label>
@@ -180,7 +180,7 @@
         if ("<%= session.user.role %>" == "client" || "<%= session.user.role %>" == "admin") {
             shipment.origin = $('#origin').val();
             shipment.destination = $('#destination').val();
-            shipment.pickupDate = $('#destination').val();
+            shipment.pickupDate = $('#pickupDate').val();
             shipment.deliveryDate = $('#deliveryDate').val();
             shipment.weight = $('#weight').val();
             shipment.description = $('#description').val();
