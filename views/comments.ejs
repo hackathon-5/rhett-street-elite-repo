@@ -52,7 +52,14 @@
             <% } %>
             <table id="comments" class="table table-striped well">
                 <thead>
-                    <tr><th>Commenter</th><th>Rating</th><th>Comment</th></tr>
+                    <tr>
+                        <th>Commenter</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <% if (session.user.role == "admin") { %>
+                            <th>Delete</th>
+                        <%}%>
+                    </tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -120,6 +127,7 @@
                                     '<td class="commentor">' + data[i].userName + '</td>' +
                                     '<td class="commentRating">' + data[i].rating + '</td>' +
                                     '<td class="commentText">' + data[i].text + '</td>' +
+                                    <% if (session.user.role == "admin") { %>'<td class=delete><a onclick="deleteCommentDerp(\'' + data[i]._id + '\')">Delete</a></td>'<%}%> +
                                     '</tr>'
                             );
                             $('#comments').DataTable();
@@ -178,10 +186,21 @@
                 $('#addCommentStuff').removeClass('animated fadeIn');
                 $('#addCommentStuff').addClass('animated fadeOut');
                 $('#addCommentStuff').hide();
-                getCarrierComments($('#carrierId').val());
+                getCarrierComments(carrier._id);
             }
         });
     });
+
+    function deleteCommentDerp(commentId) {
+        $.ajax({
+            url: '/api/comments/' + commentId,
+            contentType: 'application/json',
+            type: 'DELETE',
+            success: function(data) {
+                getCarrierComments(carrier._id);
+            }
+        });
+    }
 </script>
 <% } %>
 <% include partials/footer.ejs %>
