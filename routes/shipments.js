@@ -15,6 +15,7 @@ router.post('/', function(req, res, next) {
   shipment.weight = req.body.weight;
   shipment.status = req.body.status;
   shipment.clientId = req.body.clientId;
+  shipment.description = req.body.description;
   shipment.carrierId = req.body.carrierId;
   shipment.save(function(err) {
   if (err) {
@@ -83,6 +84,7 @@ router.put('/:id', function(req, res, next) {
     shipment.status = req.body.status;
     shipment.clientId = req.body.clientId;
     shipment.carrierId = req.body.carrierId;
+    shipment.description = req.body.description;
     shipment.save(function(err) {
     if (err) {
       res.send(err);
