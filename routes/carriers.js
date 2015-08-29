@@ -23,6 +23,12 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var carrier = new Carrier();
   carrier.name = req.body.name;
+  carrier.address = req.body.address;
+  carrier.city = req.body.city;
+  carrier.state = req.body.state;
+  carrier.zip = req.body.zip;
+  carrier.phoneNum = req.body.phoneNum;
+
   carrier.save(function(err) {
   	if (err) {
   	  res.send(err);
@@ -37,6 +43,11 @@ router.put('/:id', function(req, res, next) {
     if (err)
       res.send(err);
     carrier.name = req.body.name;
+    carrier.address = req.body.address;
+    carrier.city = req.body.city;
+    carrier.state = req.body.state;
+    carrier.zip = req.body.zip;
+    carrier.phoneNum = req.body.phoneNum;
     carrier.save(function (err) {
       if (err)
         res.send(err);
