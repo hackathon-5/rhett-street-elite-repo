@@ -1,6 +1,22 @@
 <% include partials/header.ejs %>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="hidden-xs hidden-sm col-md-12 col-lg-12 well">
     <table class="table table-striped" id="quotes">
+        <thead>
+        <tr>
+            <th>Carrier</th>
+            <th>Amount</th>
+            <% if(session.user.role == "client") { %>
+            <th>Approve</th>
+            <% } %>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<div class="col-xs-12 col-sm-12 hidden-md hidden-lg well">
+    <table class="table table-striped" id="mobile_quotes">
         <thead>
         <tr>
             <th>Carrier</th>
@@ -24,6 +40,15 @@
                 url: '/api/carriers/' + quotes[i].carrierId,
                 success: function(data) {
                     $('#quotes > tbody:last-child').append(
+                            '<tr>' +
+                            '<td>' + data.name + '</td>' +
+                            '<td>' + quotes[i].amount + '</td>' +
+                            <% if(session.user.role == "client") { %>
+                            '<td>' + '<a class="btn btn-success" href="javascript: approveQuote(\'' + data._id + '\', \'' + quotes[i].shipmentId + '\');">Approve</a>' + '</td>' +
+                            <% } %>
+                            '</tr>'
+                    );
+                    $('#mobile_quotes > tbody:last-child').append(
                             '<tr>' +
                             '<td>' + data.name + '</td>' +
                             '<td>' + quotes[i].amount + '</td>' +

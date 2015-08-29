@@ -1,5 +1,5 @@
 <% include partials/header.ejs %>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well">
+<div class="hidden-xs hidden-sm col-md-12 col-lg-12 well">
     <% if(session.user.role == "client") { %>
     <div class="pull-right">
         <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
@@ -17,6 +17,27 @@
             <th>Delivery</th>
             <th>Status</th>
             <th>Weight</th>
+            <th>My Quote</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<div class="col-xs-12 col-sm-12 hidden-md hidden-lg well">
+    <% if(session.user.role == "client") { %>
+    <div class="pull-right">
+        <a href="/shipments/new" class="btn btn-success"><i class="fa fa-plus"></i> Add New Shipment</a>
+    </div>
+    <div class="clearfix"></div>
+    <div style="margin-top: 10px;"></div>
+    <% } %>
+    <table class="table table-striped" id="mobile_shipments">
+        <thead>
+        <tr>
+            <th>Quotes</th>
+            <th>Lane</th>
             <th>My Quote</th>
         </tr>
         </thead>
@@ -55,6 +76,15 @@
                                     (quote == null ?
                                         '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');">Bid on Shipment</a></td>' :
                                         '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');">Change $' + quote.amount + ' Bid</a></td>'
+                                    ) + '</tr>'
+                            );
+                            $('#mobile_shipments > tbody:last-child').append(
+                                    '<tr>' +
+                                    '<td>' + '<a href="/shipment-quotes/' + shipments[i]._id + '">Other Quotes</a>' + '</td>' +
+                                    '<td>' + shipments[i].origin + ' -> ' + shipments[i].destination + '</td>' +
+                                    (quote == null ?
+                                            '<td><a class="btn btn-primary" href="javascript: bid(\'' + shipments[i]._id + '\');">Bid on Shipment</a></td>' :
+                                            '<td><a class="btn btn-info" href="javascript: updateBid(\'' + quote._id + '\');">Change $' + quote.amount + ' Bid</a></td>'
                                     ) + '</tr>'
                             );
                         }
