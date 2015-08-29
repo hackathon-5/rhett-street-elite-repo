@@ -131,7 +131,7 @@
                                     '<td class="commentor">' + data[i].userName + '</td>' +
                                     '<td class="commentRating">' + data[i].rating + '</td>' +
                                     '<td class="commentText">' + data[i].text + '</td>' +
-                                    <% if (session.user.role == "admin") { %>'<td class=delete><a onclick="deleteCommentDerp(\'' + data[i]._id + '\')">Delete</a></td>'<%}%> +
+                                    <% if (session.user.role == "admin") { %>'<td class=delete><a class="btn btn-danger" onclick="deleteCommentDerp(\'' + data[i]._id + '\')">Delete</a></td>'<%}%> +
                                     '</tr>'
                             );
                             $('#comments').DataTable();
