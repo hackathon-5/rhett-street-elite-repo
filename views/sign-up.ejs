@@ -75,14 +75,13 @@
             }
         });
         $('#signup-button').on('click', function(e) {
+            e.preventDefault();
             if($('#type').val() == '0') {
                 alert("You must select whether you are a carrier or a shipper.");
-                e.preventDefault();
                 return;
             }
             if($('password').val() != $('confirm_password').val()) {
                 alert("Password and confirmation do not match.");
-                e.preventDefault();
                 return;
             }
             var user = {
@@ -102,6 +101,7 @@
                 }
             }
             saveUser(user, function(data) {
+                user = data;
                 if($('#type').val() == '1' && $('#client').val() == 'other') {
                     var client = {
                         "name": $('#client_name').val()
@@ -135,7 +135,8 @@
         function saveUser(user, callback) {
             $.ajax({
                 url: '/users',
-                type: 'post',
+                type: 'POST',
+                contentType: 'application/json',
                 data: JSON.stringify(user),
                 success: function(data) {
                     callback(data);
@@ -146,7 +147,8 @@
         function saveCarrier(carrier, callback) {
             $.ajax({
                 url: '/carriers',
-                type: 'post',
+                type: 'POST',
+                contentType: 'application/json',
                 data: JSON.stringify(carrier),
                 success: function(data) {
                     callback(data);
@@ -157,7 +159,8 @@
         function saveClient(client, callback) {
             $.ajax({
                 url: '/clients',
-                type: 'post',
+                type: 'POST',
+                contentType: 'application/json',
                 data: JSON.stringify(client),
                 success: function(data) {
                     callback(data);
@@ -167,8 +170,9 @@
 
         function updateUser(user, callback) {
             $.ajax({
-                url: '/users',
-                type: 'put',
+                url: '/users/' + user._id,
+                type: 'PUT',
+                contentType: 'application/json',
                 data: JSON.stringify(user),
                 success: function (data) {
                     callback(data);

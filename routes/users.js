@@ -24,13 +24,15 @@ router.get('/:id', function(req, res, next) {
 
 /* Create user */
 router.post('/', function(req, res, next) {
-  var user = new User();  
+  var user = new User();
   user.name = req.body.name;
   user.email = req.body.email;
   user.password = req.body.password;
   user.role  = req.body.role;
   user.carrierId = req.body.carrierId;
   user.clientId = req.body.clientId;
+
+  req.session.user = user;
 
   user.save(function(err) {
     if (err)
