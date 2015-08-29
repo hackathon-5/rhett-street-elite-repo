@@ -90,11 +90,15 @@ router.get('/login', function(req, res, next) {
 });
 
 router.get('/profile', function(req, res, next) {
-  if(req.session.user) {
+  if (req.session.user) {
     res.render('profile', {session: req.session});
   } else {
     res.redirect('/');
   }
+});
+
+router.get('/comments', function(req, res, next) {
+  res.render('comments', {session: req.session});
 });
 
 module.exports = router;
