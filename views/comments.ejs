@@ -3,7 +3,6 @@
 <div class="hidden-xs hidden-sm">
     <!-- Larger Screens -->
         <div class="col-lg-3 col-md-3 well">
-            <h6>Carriers</h6>
             <table id="carriers" class="table table-striped">
                 <thead>
                     <tr><th>Carrier Name</th></tr>
@@ -12,9 +11,37 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-9 col-md-9">
-            <h6>Comments</h6>
-            
+        <div class="col-lg-9 col-md-9" style="background-color: #34495e">
+            <div id="carrierInfo" style="color: #eeeeee">
+                <h6>Carrier Information</h6>
+                <div id="carrierName"></div>
+                <div id="carrierAddress"></div>
+                <div id="carrierCity"></div>
+                <div id="average"></div>
+            </div>
+            <div class="spacer"></div>
+            <table id="comments" class="table table-striped well">
+                <thead>
+                    <tr><th>Commenter</th><th>Rating</th><th>Comment</th></tr>
+                </thead>
+                <tbody>
+                    <!--<tr>-->
+                        <!--<td class="commentor">Billy Joe</td>-->
+                        <!--<td class="commentRating">****</td>-->
+                        <!--<td class="commentText">Fred is a swell guy. He got me my load of bits right when he said it'd be here.</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="commentor">Billy Bob</td>-->
+                        <!--<td class="commentRating">***</td>-->
+                        <!--<td class="commentText">No Gord mafren. He got me my load of bits right when he said it'd be here.</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="commentor">Billy Joe</td>-->
+                        <!--<td class="commentRating">****</td>-->
+                        <!--<td class="commentText">Fred is a swell guy. He got me my load of bits right when he said it'd be here.</td>-->
+                    <!--</tr>-->
+                </tbody>
+            </table>
         </div>
 </div>
 <div class="hidden-lg hidden-md">
@@ -36,9 +63,9 @@
             url: '/api/carriers/list',
             type: 'GET',
             success: function(data) {
-                for(var i = 0; i < data.length; ++i) {
+                for (var i = 0; i < data.length; ++i) {
                     $('#carriers > tbody:last-child').append(
-                            '<tr><td><a href="/carriers/' + data[i]._id + '">' + data[i].name + '</a></td></tr>'
+                            '<tr><td><a onclick="getCarrierComments(\'' + data[i]._id + '\')">' + data[i].name + '</a></td></tr>'
                     );
                     $('#mobile_carriers > tbody:last-child').append(
                             '<tr><td><a href="/carrier_comments/' + data[i]._id + '">' + data[i].name + '</a></td></tr>'
@@ -47,6 +74,41 @@
             }
         });
     });
+
+    function getCarrierComments(id) {
+        $.ajax({
+            url: '/api/comments/list/' + id,
+            type: 'GET',
+            success: function(data) {
+                var ratingSum = 0;
+                for (var i = 0; i < data.length; ++i) {
+                    ratingSum += data[i].rating;
+                    $('#comments > tbody:last-child').append(
+                            '<tr>' +
+                            '<td class="commentor">' + data[i].userName + '</td>' +
+                            '<td class="commentRating">' + data[i].rating + '</td>' +
+                            '<td class="commentText">' + data[i].text + '</td>' +
+                            '</tr>'
+                    );
+                }
+                var averageRating = "N/A";
+                if (data.length > 0) {
+                    averageRating = ratingSum / data.length
+                }
+                $('#average').text("Average Rating: " + averageRating);
+            }
+        });
+
+        $.ajax({
+            url: '/api/carriers/' + id,
+            type: 'GET',
+            success: function(data) {
+                $('#carrierName').text(data.name);
+                $('#carrierAddress').text(data.address);
+                $('#carrierCity').text(data.city + ' ' + data.state + ' ' + data.zip);
+            }
+        });
+    }
 </script>
 <% } %>
 <% include partials/footer.ejs %>
