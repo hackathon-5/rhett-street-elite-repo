@@ -18,13 +18,201 @@
                 <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm Password" />
             </div>
             <div class="form-group">
-
+                <label>Select your company type:</label>
+                <select class="form-control" name="type" id="type">
+                    <option value="0">Select an option...</option>
+                    <option value="1">I want to ship stuff...</option>
+                    <option value="2">I want to carry stuff...</option>
+                </select>
             </div>
-            client_name
-            carrier_name
+            <div class="carrier">
+                <div class="form-group">
+                    <label for="carrier">Company Name:</label>
+                    <select name="carrier" id="carrier" class="form-control"></select>
+                    <input type="text" name="client_name" id="carrier_name" class="form-control" placeholder="Company Name"/>
+                </div>
+            </div>
+            <div class="client">
+                <div class="form-group">
+                    <label for="client">Company Name:</label>
+                    <select name="client" id="client" class="form-control"></select>
+                    <input type="text" name="client_name" id="client_name" class="form-control" placeholder="Company Name"/>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary" id="signup-button">Sign Up</button>
+            </div>
+            <div class="clearfix"></div>
         </form>
     </div>
     <script type="text/javascript">
+        $('#type').on('change', function() {
+            if(this.value == '0') {
+                $('.carrier').hide();
+                $('.client').hide();
+            } else if (this.value == '1') {
+                $('.carrier').hide();
+                $('.client').show();
+            } else if (this.value == '2') {
+                $('.carrier').show();
+                $('.client').hide();
+            }
+        });
+        $('#carrier').on('change', function() {
+            alert(this.value);
+            if(this.value == 'other') {
+                $('#carrier_name').show();
+            } else {
+                $('#carrier_name').hide();
+            }
+        });
+        $('#client').on('change', function() {
+            alert(this.value);
+            if(this.value == 'other') {
+                $('#client_name').show();
+            } else {
+                $('#client_name').hide();
+            }
+        });
+        $('#signup-button').on('click', function(e) {
+            if($('#type').val() == '0') {
+                alert("You must select whether you are a carrier or a shipper.");
+                e.preventDefault();
+                return;
+            }
+            if($('password').val() != $('confirm_password').val()) {
+                alert("Password and confirmation do not match.");
+                e.preventDefault();
+                return;
+            }
+            var user = {
+                "name": $('#name').val(),
+                "email": $('#email').val(),
+                "password": $('#password').val()
+            };
+            if($('#type').val() == '1') {
+                user.role = 'client';
+                if($('#type').val() == '1' && $('#client').val() != 'other') {
+                    user.clientId = $('client').val();
+                }
+            } else {
+                user.role = 'carrier';
+                if($('#type').val() == '2' && $('#client').val() != 'other') {
+                    user.carrierId = $('carrier').val();
+                }
+            }
+            saveUser(user, function(data) {
+                if($('#type').val() == '1' && $('#client').val() == 'other') {
+                    var client = {
+                        "name": $('#client_name').val()
+                    };
+                    saveClient(client, function(data) {
+                        user.clientId = data._id;
+                        updateUser(user, function(data) {
+                            window.location = '/';
+                        });
+                    });
+                } else if($('#type').val() == '2' && $('#carrier').val() == 'other') {
+                    var carrier = {
+                        "name": $('#carrier_name').val()
+                    };
+                    saveCarrier(carrier, function(data) {
+                        user.carrierId = data._id;
+                        updateUser(user, function(data) {
+                            window.location = '/';
+                        });
+                    });
+                } else {
+                    window.location = '/';
+                }
+            });
+        });
+        $('#carrier_name').hide();
+        $('#client_name').hide();
+        $('.carrier').hide();
+        $('.client').hide();
 
+        function saveUser(user, callback) {
+            $.ajax({
+                url: '/users',
+                type: 'post',
+                data: JSON.stringify(user),
+                success: function(data) {
+                    callback(data);
+                }
+            });
+        }
+
+        function saveCarrier(carrier, callback) {
+            $.ajax({
+                url: '/carriers',
+                type: 'post',
+                data: JSON.stringify(carrier),
+                success: function(data) {
+                    callback(data);
+                }
+            });
+        }
+
+        function saveClient(client, callback) {
+            $.ajax({
+                url: '/clients',
+                type: 'post',
+                data: JSON.stringify(client),
+                success: function(data) {
+                    callback(data);
+                }
+            });
+        }
+
+        function updateUser(user, callback) {
+            $.ajax({
+                url: '/users',
+                type: 'put',
+                data: JSON.stringify(user),
+                success: function (data) {
+                    callback(data);
+                }
+            });
+        }
+
+        $(function() {
+            $.ajax({
+                url: '/clients/list',
+                success: function(data) {
+                    for(var i = 0; i < data.lenght; ++i) {
+                        $('#client').append($('<option>', {
+                            value: data[i]._id,
+                            text: data[i].name
+                        }));
+                    }
+                    if(data.length == 0) {
+                        $('#client_name').show();
+                    }
+                    $('#client').append($('<option>', {
+                        value: 'other',
+                        text: 'other'
+                    }));
+                }
+            });
+            $.ajax({
+                url: '/carriers/list',
+                success: function(data) {
+                    for(var i = 0; i < data.lenght; ++i) {
+                        $('#carrier').append($('<option>', {
+                            value: data[i]._id,
+                            text: data[i].name
+                        }));
+                    }
+                    if(data.length == 0) {
+                        $('#carrier_name').show();
+                    }
+                    $('#carrier').append($('<option>', {
+                        value: 'other',
+                        text: 'other'
+                    }));
+                }
+            });
+        });
     </script>
 <% include partials/footer.ejs %>
