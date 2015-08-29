@@ -10,6 +10,7 @@ var ShipmentSchema = new Schema({
   pickupDate: { type: Date, required: true},
   deliveryDate: { type: Date, required: true},
   weight: { type: Number, required: true},
+  description: { type: String, required: true},
   status: { type: String, enum: ['in-planning', 'booked', 'in-transit', 'delivered']},
   clientId: ObjectId,
   carrierId: ObjectId
