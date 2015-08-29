@@ -89,4 +89,8 @@ router.get('/login', function(req, res, next) {
   res.render('login', {session: req.session });
 });
 
+router.get('/comments', function(req, res, next) {
+  res.render('comments', {session: req.session});
+});
+
 module.exports = router;

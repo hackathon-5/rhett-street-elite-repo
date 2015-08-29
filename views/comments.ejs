@@ -1,0 +1,30 @@
+<% include partials/header.ejs %>
+
+<div class="col-xs-hidden col-sm-hidden">
+    <!-- Larger Screens -->
+    <div class="well">
+        <div class="col-lg-3 col-md-3">
+            <h5>Carriers</h5>
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <h5>Comments</h5>
+        </div>
+    </div>
+</div>
+<div class="col-lg-hidden col-md-hidden">
+    <!-- Smaller Screens -->
+</div>
+
+<script type="text/javascript">
+    function getCarriers() {
+        $.ajax({
+            url: '/api/carriers/list',
+            type: 'GET',
+            success: function(data) {
+                return data;
+            }
+        })
+    }
+</script>
+
+<% include partials/footer.ejs %>
