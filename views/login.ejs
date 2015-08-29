@@ -1,15 +1,20 @@
 <% include partials/header.ejs %>
 
-<div class="loginForm">
-    <form action="login" method="post">
-        <div id="loginUsername">
-            <input type="text" id="hackusername" placeholder="username" />
+<%
+    if (session && session.user) {
+        req.redirect('/');
+    }
+%>
+
+<div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4 well">
+    <form class="form">
+        <div id="form-group">
+            <label for="hackEmail">Email</label>
+            <input type="text" class="form-control" id="hackEmail" placeholder="Email" />
         </div>
-        <div id="loginPassword">
-            <input type="password" id="hackpassword" placeholder="password" />
-        </div>
-        <div id="loginSubmit">
-            <input type="submit" id="submit" />
+        <div id="form-group">
+            <label for="hackPassword">Password</label>
+            <input type="password" class="form-control" id="hackPassword" placeholder="Password" />
         </div>
     </form>
 </div>
