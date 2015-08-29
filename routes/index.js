@@ -89,4 +89,12 @@ router.get('/login', function(req, res, next) {
   res.render('login', {session: req.session });
 });
 
+router.get('/profile', function(req, res, next) {
+  if(req.session.user) {
+    res.render('profile', {session: req.session});
+  } else {
+    res.redirect('/');
+  }
+});
+
 module.exports = router;

@@ -1,0 +1,91 @@
+<% include partials/header.ejs %>
+<div class="col-xs-12 col-sm-12 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 well">
+    <h1>Profile</h1>
+    <hr/>
+    <form class="form">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Full Name" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="text" class="form-control" name="email" id="email" placeholder="user@domain.com" />
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary" id="save-button">Save</button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+    <h1>Change Password</h1>
+    <hr/>
+    <form class="form">
+        <div class="form-group">
+            <label for="current_password">Current Password:</label>
+            <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Current Password" />
+        </div>
+        <div class="form-group">
+            <label for="new_password">New Password:</label>
+            <input type="password" class="form-control" name="new_password" id="new_password" placeholder="New Password" />
+        </div>
+        <div class="form-group">
+            <label for="confirmation">Password:</label>
+            <input type="password" class="form-control" name="confirmation" id="confirmation" placeholder="Confirm Password" />
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary" id="change-password">Change Password</button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    var user = null;
+
+    $(function() {
+        $.ajax({
+            url: '/api/users/' + '<%= session.user._id %>',
+            success: function(data) {
+                user = data;
+                $('#name').val(data.name);
+                $('#email').val(data.email);
+            }
+        });
+    });
+
+    $('#save-button').on('click', function(e) {
+        e.preventDefault();
+        user.name = $('#name').val();
+        user.email = $('#email').val();
+        $.ajax({
+            url: '/api/users/' + user._id,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data) {
+                window.location = '/profile';
+            }
+        });
+    });
+
+    $('#change-password').on('click', function(e) {
+        e.preventDefault();
+        if($('#current_password').val() != user.password) {
+            alert("Current password is incorrect");
+            return;
+        }
+        if($('#new_password').val() != $('#confirmation').val()) {
+            alert("New password and confirmation don't match");
+            return;
+        }
+        user.password = $('#new_password').val();
+        $.ajax({
+            url: '/api/users/' + user._id,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(user),
+            success: function(data) {
+                window.location = '/profile';
+            }
+        });
+    });
+</script>
+<% include partials/footer.ejs %>
