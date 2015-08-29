@@ -9,7 +9,10 @@ var CarrierSchema = new Schema({
 	city: { type: String },
 	state: { type: String},
 	zip: { type: Number },
-	phoneNum: { type: String }
+	phoneNum: { type: String },
+	totalRating: { type: Number },
+	totalComments: { type: Number },
+	averageRating: { type: Number }
 });
 
 module.exports = mongoose.model('Carrier', CarrierSchema);

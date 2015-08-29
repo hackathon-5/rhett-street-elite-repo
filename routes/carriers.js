@@ -6,7 +6,7 @@ var Carrier = require('../models/carrier.js')
 router.get('/list', function(req, res, next) {
   Carrier.find(function(err, carriers) {
   	if (err)
-  		  res.send(err);
+      res.send(err);
   	res.json(carriers);
   });
 });
@@ -28,6 +28,9 @@ router.post('/', function(req, res, next) {
   carrier.state = req.body.state;
   carrier.zip = req.body.zip;
   carrier.phoneNum = req.body.phoneNum;
+  carrier.totalComments = 0;
+  carrier.totalRating = 0;
+  carrier.averageRating = 0;
 
   carrier.save(function(err) {
   	if (err) {

@@ -16,7 +16,18 @@ router.post('/', function(req, res, next) {
   comment.save(function(err) {
     if (err)
       res.send(err);
-    res.json(comment);
+    Carrier.findOne({id: comment.carrierId}, function(err, carrier) {
+      if(err)
+        res.send(err);
+      carrier.totalComments += 1;
+      carrier.totalRating += parseInt(comment.rating);
+      carrier.averageRating = carrier.totalRating / carrier.totalComments;
+      carrier.save(function(err) {
+        if(err)
+          res.send(err);
+        res.json(comment);
+      })
+    });
   });
 });
 
