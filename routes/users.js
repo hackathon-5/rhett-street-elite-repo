@@ -39,4 +39,23 @@ router.post('/', function(req, res, next) {
   });
 });
 
+/* Update user */
+router.put('/:id', function(req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if (err)
+    	res.send(err);
+    user.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+    user.role  = req.body.role;
+    user.carrierId = req.body.carrierId;
+    user.clientId = req.body.clientId;
+    user.save(function(err) {
+    if (err)
+      res.send(err);
+    res.json(user);
+    });
+  });
+});
+
 module.exports = router;
