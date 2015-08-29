@@ -50,9 +50,14 @@ router.delete('/:id', function(req, res, next) {
             if (err) {
                 res.send(err);
             }
-            carrier.totalComments -= 1;
-            carrier.totalRating -= parseInt(comment.rating);
-            carrier.averageRating = carrier.totalRating / carrier.totalComments;
+            carrier.totalComments = carrier.totalComments -1;
+            if (carrier.totalComments != 0) {
+                carrier.totalRating -= parseInt(comment.rating);
+                carrier.averageRating = carrier.totalRating / carrier.totalComments;
+            } else {
+                carrier.totalRating = 0;
+                carrier.averageRating = 0;
+            }
             carrier.save(function(err) {
                 if(err) {
                     res.send(err);
