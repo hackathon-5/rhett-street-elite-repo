@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Flat UI Free 101 Template</title>
+    <title>KeepTruckin'</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
@@ -10,6 +10,7 @@
 
     <!-- Loading Flat UI -->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
+    <link href="/stylesheets/style.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="/images/favicon.ico">
 
@@ -35,13 +36,16 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <% if() { %>
-            <ul class="nav navbar-nav navbar-left">
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-            </ul>
+            <% if(session && session.user) { %>
+                <ul class="nav navbar-nav navbar-left">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                </ul>
             <% } else { %>
-
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/sign-up">Sign Up</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
             <% } %>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
