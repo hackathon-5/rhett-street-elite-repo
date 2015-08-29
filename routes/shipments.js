@@ -43,6 +43,15 @@ router.get('/list/carrier/:carrierId', function(req, res, next) {
   });
 });
 
+/* get shipments per client */
+router.get('/list/carrierUnassigned', function(req, res, next) {
+  Shipment.find({ carrierId: null }, function(err, shipment) {
+    if (err)
+      res.send(err);
+    res.json(shipment);
+  });
+});
+
 /* get shipment */
 router.get('/:id', function(req, res, next) {
   Shipment.findById(req.params.id, function(err, shipment) {
