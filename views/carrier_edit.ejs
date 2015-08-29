@@ -3,7 +3,27 @@
     <form class="form">
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Full Name" />
+            <input type="text" class="form-control" name="name" id="name" placeholder="Company Name" />
+        </div>
+        <div class="form-group">
+            <label for="address">Name:</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Address" />
+        </div>
+        <div class="form-group">
+            <label for="city">Name:</label>
+            <input type="text" class="form-control" name="city" id="city" placeholder="City" />
+        </div>
+        <div class="form-group">
+            <label for="state">Name:</label>
+            <input type="text" class="form-control" name="state" id="state" placeholder="State" />
+        </div>
+        <div class="form-group">
+            <label for="postal">Name:</label>
+            <input type="text" class="form-control" name="postal" id="postal" placeholder="Postal" />
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Name:</label>
+            <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" />
         </div>
         <div class="pull-right">
             <button class="btn btn-primary" id="save-button">Save</button>
@@ -17,6 +37,11 @@
             url: '/api/carriers/' + '<%= id %>',
             success: function (data) {
                 $('#name').val(data.name);
+                $('#address').val(data.address);
+                $('#city').val(data.city);
+                $('#state').val(data.state);
+                $('#postal').val(data.zip);
+                $('#phoneNumber').val(data.phoneNum);
             }
         });
     });
@@ -24,7 +49,12 @@
     $('#save-button').on('click', function(e) {
         e.preventDefault();
         var carrier = {
-            "name": $('#name').val()
+            "name": $('#name').val(),
+            "address": $('#address').val(),
+            "city": $('#city').val(),
+            "state": $('#state').val(),
+            "zip": $('#postal').val(),
+            "phoneNum": $('#phoneNumber').val(),
         };
         $.ajax({
             url: '/api/carriers/' + '<%= id %>',
