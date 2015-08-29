@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {session: req.session});
+  res.render('comments', {session: req.session});
 });
 
 router.get('/users', function(req, res, next) {
@@ -95,10 +95,6 @@ router.get('/profile', function(req, res, next) {
   } else {
     res.redirect('/');
   }
-});
-
-router.get('/comments', function(req, res, next) {
-  res.render('comments', {session: req.session});
 });
 
 module.exports = router;
